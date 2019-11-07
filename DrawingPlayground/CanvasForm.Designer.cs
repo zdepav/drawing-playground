@@ -23,8 +23,10 @@ namespace DrawingPlayground {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CanvasForm));
             this.canvas = new DrawingPlayground.Canvas();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // canvas
@@ -37,6 +39,17 @@ namespace DrawingPlayground {
             this.canvas.Size = new System.Drawing.Size(800, 450);
             this.canvas.TabIndex = 0;
             this.canvas.Paint += new System.Windows.Forms.PaintEventHandler(this.canvas_Paint);
+            this.canvas.KeyDown += new System.Windows.Forms.KeyEventHandler(this.canvas_KeyDown);
+            this.canvas.KeyUp += new System.Windows.Forms.KeyEventHandler(this.canvas_KeyUp);
+            this.canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseDown);
+            this.canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseMove);
+            this.canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseUp);
+            // 
+            // timer
+            // 
+            this.timer.Enabled = true;
+            this.timer.Interval = 30;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // CanvasForm
             // 
@@ -55,5 +68,6 @@ namespace DrawingPlayground {
         #endregion
 
         private Canvas canvas;
+        private System.Windows.Forms.Timer timer;
     }
 }

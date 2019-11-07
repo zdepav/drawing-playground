@@ -58,8 +58,6 @@ namespace DrawingPlayground {
             ShowErrorListForm();
             ShowCanvasForm();
             ShowHelpForm();
-
-            LoadState();
         }
 
         private void ShowCodeEditorForm() {
@@ -113,7 +111,9 @@ namespace DrawingPlayground {
             }
         }
 
-        private void MainForm_Load(object sender, EventArgs e) { }
+        private void MainForm_Load(object sender, EventArgs e) {
+            LoadState();
+        }
 
         private void codeEditorToolStripMenuItem_Click(object sender, EventArgs e) => ShowCodeEditorForm();
 
@@ -132,6 +132,9 @@ namespace DrawingPlayground {
         private void openToolStripMenuItem_Click(object sender, EventArgs e) => OpenProject();
 
         private void LoadState() {
+            if (!NewProject()) {
+                shouldClose = true;
+            } /*
             try {
                 var stateString = FileUtils.LoadFile(DataDirectory, "state.json");
                 if (!string.IsNullOrWhiteSpace(stateString)) {
@@ -160,7 +163,7 @@ namespace DrawingPlayground {
                 }
             } catch {
                 log.LogError("Could not load editor state");
-            }
+            }*/
         }
 
         private bool NewProject() {

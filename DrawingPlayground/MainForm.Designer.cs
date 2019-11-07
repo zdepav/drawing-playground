@@ -43,6 +43,8 @@ namespace DrawingPlayground {
             this.errorListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vs2015LightTheme = new WeifenLuo.WinFormsUI.Docking.VS2015LightTheme();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip.SuspendLayout();
@@ -63,7 +65,8 @@ namespace DrawingPlayground {
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.scriptToolStripMenuItem,
-            this.panelToolStripMenuItem});
+            this.panelToolStripMenuItem,
+            this.runToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(911, 24);
@@ -84,7 +87,7 @@ namespace DrawingPlayground {
             // 
             // newToolStripMenuItem
             // 
-            this.newToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.NewProjectImage;
+            this.newToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripMenuItem.Image")));
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
@@ -93,7 +96,7 @@ namespace DrawingPlayground {
             // 
             // openToolStripMenuItem
             // 
-            this.openToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.OpenProjectImage;
+            this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
@@ -107,14 +110,14 @@ namespace DrawingPlayground {
             // 
             // importToolStripMenuItem
             // 
-            this.importToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.ImportProjectImage;
+            this.importToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("importToolStripMenuItem.Image")));
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
             this.importToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.importToolStripMenuItem.Text = "&Import";
             // 
             // exportToolStripMenuItem
             // 
-            this.exportToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.ExportProjectImage;
+            this.exportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exportToolStripMenuItem.Image")));
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exportToolStripMenuItem.Text = "&Export";
@@ -129,7 +132,7 @@ namespace DrawingPlayground {
             // 
             // resetToolStripMenuItem
             // 
-            this.resetToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.ResetImage;
+            this.resetToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("resetToolStripMenuItem.Image")));
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
             this.resetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.R)));
@@ -151,7 +154,7 @@ namespace DrawingPlayground {
             // 
             // codeEditorToolStripMenuItem
             // 
-            this.codeEditorToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.JsFileImage;
+            this.codeEditorToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("codeEditorToolStripMenuItem.Image")));
             this.codeEditorToolStripMenuItem.Name = "codeEditorToolStripMenuItem";
             this.codeEditorToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.codeEditorToolStripMenuItem.Text = "&Code Editor";
@@ -159,7 +162,7 @@ namespace DrawingPlayground {
             // 
             // canvasToolStripMenuItem
             // 
-            this.canvasToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.CanvasImage;
+            this.canvasToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("canvasToolStripMenuItem.Image")));
             this.canvasToolStripMenuItem.Name = "canvasToolStripMenuItem";
             this.canvasToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.canvasToolStripMenuItem.Text = "Can&vas";
@@ -167,7 +170,7 @@ namespace DrawingPlayground {
             // 
             // errorListToolStripMenuItem
             // 
-            this.errorListToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.ErrorListImage;
+            this.errorListToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("errorListToolStripMenuItem.Image")));
             this.errorListToolStripMenuItem.Name = "errorListToolStripMenuItem";
             this.errorListToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.errorListToolStripMenuItem.Text = "&Error List";
@@ -175,7 +178,7 @@ namespace DrawingPlayground {
             // 
             // showConsoleToolStripMenuItem
             // 
-            this.showConsoleToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.ConsoleImage;
+            this.showConsoleToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showConsoleToolStripMenuItem.Image")));
             this.showConsoleToolStripMenuItem.Name = "showConsoleToolStripMenuItem";
             this.showConsoleToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.showConsoleToolStripMenuItem.Text = "C&onsole";
@@ -183,12 +186,28 @@ namespace DrawingPlayground {
             // 
             // showHelpToolStripMenuItem
             // 
-            this.showHelpToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.HelpImage;
+            this.showHelpToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showHelpToolStripMenuItem.Image")));
             this.showHelpToolStripMenuItem.Name = "showHelpToolStripMenuItem";
             this.showHelpToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
             this.showHelpToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.showHelpToolStripMenuItem.Text = "&Help";
             this.showHelpToolStripMenuItem.Click += new System.EventHandler(this.showHelpToolStripMenuItem_Click);
+            // 
+            // runToolStripMenuItem
+            // 
+            this.runToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runCodeToolStripMenuItem});
+            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.runToolStripMenuItem.Text = "Run";
+            // 
+            // runCodeToolStripMenuItem
+            // 
+            this.runCodeToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.RunImage;
+            this.runCodeToolStripMenuItem.Name = "runCodeToolStripMenuItem";
+            this.runCodeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.runCodeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.runCodeToolStripMenuItem.Text = "Run code";
             // 
             // timer
             // 
@@ -239,6 +258,8 @@ namespace DrawingPlayground {
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private VS2015LightTheme vs2015LightTheme;
         private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runCodeToolStripMenuItem;
     }
 }
 

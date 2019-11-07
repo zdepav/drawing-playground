@@ -1,6 +1,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Esprima;
@@ -27,6 +28,7 @@ namespace DrawingPlayground {
 
         private Engine MakeEngine() =>
             new Engine(cfg => cfg.AllowClr()
+                                 .AllowClr(typeof(Brushes).Assembly)
                                  .Culture(CultureInfo.InvariantCulture)
                                  .CatchClrExceptions()
                                  .LimitMemory(1024L * 1024L * 1024L)
@@ -77,6 +79,7 @@ namespace DrawingPlayground {
             if (syntaxErrors.Count == 0) {
                 try {
                     lock (engineLock) {
+                        engine.ResetTimeoutTicks();
                         engine.Execute(program);
                     }
                 } catch (JavaScriptException error) {
@@ -122,13 +125,14 @@ namespace DrawingPlayground {
             return obj.Class == "Function" ? obj : null;
         }
 
-        public void InvokeFunction(ObjectInstance func) {
+        public void InvokeFunction(ObjectInstance func, object[] args) {
             if (func.Class != "Function") {
                 throw new ArgumentException("Argument must be a JavaScript function", nameof(func));
             }
             try {
                 lock (engineLock) {
-                    engine.Invoke(func);
+                    engine.ResetTimeoutTicks();
+                    engine.Invoke(func, args);
                 }
             } catch (JavaScriptException error) {
                 log.LogError(error);

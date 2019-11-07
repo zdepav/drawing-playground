@@ -204,6 +204,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\RunImage.png" />
+    <None Include="Resources\RunIcon.ico" />
     <None Include="Resources\ResetImage.png" />
     <None Include="Resources\ResetIcon.ico" />
     <None Include="Resources\OpenProjectImage.png" />
@@ -226,16 +228,6 @@
     <None Include="Resources\ConsoleIcon.ico" />
     <None Include="Resources\CanvasImage.png" />
     <None Include="Resources\CanvasIcon.ico" />
-    <Content Include="Resources\CanvasIcon.png" />
-    <Content Include="Resources\ConsoleIcon.png" />
-    <Content Include="Resources\ErrorListIcon.png" />
-    <Content Include="Resources\ExportProjectIcon.png" />
-    <Content Include="Resources\HelpIcon.png" />
-    <Content Include="Resources\ImportProjectIcon.png" />
-    <Content Include="Resources\JsFileIcon.png" />
-    <Content Include="Resources\NewProjectIcon.png" />
-    <Content Include="Resources\OpenProjectIcon.png" />
-    <Content Include="Resources\ResetIcon.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

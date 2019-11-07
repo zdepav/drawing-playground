@@ -47,7 +47,7 @@ namespace DrawingPlayground {
         }
 
         private void NewProjectForm_Load(object sender, EventArgs e) {
-            DialogResult = DialogResult.Cancel;
+
         }
 
         private void errorLabel_Resize(object sender, EventArgs e) {
