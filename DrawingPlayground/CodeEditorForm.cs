@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 using Esprima;
 using FastColoredTextBoxNS;
 using WeifenLuo.WinFormsUI.Docking;
@@ -98,6 +99,12 @@ namespace DrawingPlayground {
         }
 
         protected override string GetPersistString() => "CodeEditor";
+
+        private void CodeEditorForm_KeyDown(object sender, KeyEventArgs e) {
+            if (e.Control && e.KeyCode == Keys.S) {
+                saveTimer_Tick(sender, e);
+            }
+        }
 
         public void SetCode(string code) {
             codeBox.Text = code;

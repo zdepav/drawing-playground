@@ -117,6 +117,9 @@
       <DependentUpon>HelpForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ILog.cs" />
+    <Compile Include="JsApi\CanvasGradient.cs" />
+    <Compile Include="JsApi\CanvasRenderingContext2D.cs" />
+    <Compile Include="ColorUtils.cs" />
     <Compile Include="JsRunner.cs" />
     <Compile Include="LogEncapsulator.cs" />
     <Compile Include="LogForm.cs">
@@ -234,5 +237,6 @@
     <Content Include="Resources\OpenProjectIcon.png" />
     <Content Include="Resources\ResetIcon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

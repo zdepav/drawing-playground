@@ -64,6 +64,7 @@ namespace DrawingPlayground {
             this.codeBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.codeBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.codeBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.codeBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.codeBox.IsReplaceMode = false;
             this.codeBox.Language = FastColoredTextBoxNS.Language.JS;
             this.codeBox.LeftBracket = '(';
@@ -104,6 +105,7 @@ namespace DrawingPlayground {
             this.Name = "CodeEditorForm";
             this.ShowIcon = false;
             this.Text = "Code";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CodeEditorForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.codeBox)).EndInit();
             this.ResumeLayout(false);
 
