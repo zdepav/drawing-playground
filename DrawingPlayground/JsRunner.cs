@@ -20,10 +20,16 @@ namespace DrawingPlayground {
 
         private readonly ILog log;
 
+        private volatile Esprima.Ast.Program? program;
+
+        private volatile string? code;
+
         public JsRunner(ILog log) {
             engineLock = new object();
             this.log = log;
             engine = MakeEngine();
+            program = null;
+            code = null;
         }
 
         private Engine MakeEngine() =>
@@ -50,7 +56,8 @@ namespace DrawingPlayground {
             }
         }
 
-        public ParserException[] RunCode(string code) {
+        public ParserException[] ParseCode(string code) {
+            this.code = code;
             var syntaxErrors = new List<ParserException>();
             var errorHandler = new ErrorHandler { Tolerant = true };
             var parser = new JavaScriptParser(code, new ParserOptions {
@@ -58,7 +65,6 @@ namespace DrawingPlayground {
                 Tolerant = true,
                 ErrorHandler = errorHandler
             });
-            Esprima.Ast.Program? program = null;
             try {
                 program = parser.ParseProgram();
             } catch (ParserException error) {
@@ -76,30 +82,37 @@ namespace DrawingPlayground {
                 );
             }
             syntaxErrors.AddRange(errorHandler.Errors);
-            if (syntaxErrors.Count == 0) {
-                try {
-                    lock (engineLock) {
-                        engine.ResetTimeoutTicks();
-                        engine.Execute(program);
-                    }
-                } catch (JavaScriptException error) {
-                    syntaxErrors.Add(
-                        new ParserException(
-                            new ParseError(
-                                error.Message,
-                                error.Location.Source,
-                                GetIndex(code, error.LineNumber, error.Column),
-                                error.Location.Start
-                            )
-                        )
-                    );
-                } catch (MemoryLimitExceededException error) {
-                    log.LogError(error);
-                } catch (TimeoutException error) {
-                    log.LogError(error);
-                } catch (RecursionDepthOverflowException error) {
-                    log.LogError(error);
+            return syntaxErrors.ToArray();
+        }
+
+        public ParserException[] Run() {
+            if (program is null || code is null) {
+                return new ParserException[0];
+            }
+            var syntaxErrors = new List<ParserException>();
+            try {
+                lock (engineLock) {
+                    engine.ResetTimeoutTicks();
+                    engine.ResetMemoryUsage();
+                    engine.Execute(program);
                 }
+            } catch (JavaScriptException error) {
+                syntaxErrors.Add(
+                    new ParserException(
+                        new ParseError(
+                            error.Message,
+                            error.Location.Source,
+                            GetIndex(code, error.LineNumber, error.Column),
+                            error.Location.Start
+                        )
+                    )
+                );
+            } catch (MemoryLimitExceededException error) {
+                log.LogError(error);
+            } catch (TimeoutException error) {
+                log.LogError(error);
+            } catch (RecursionDepthOverflowException error) {
+                log.LogError(error);
             }
             return syntaxErrors.ToArray();
         }
@@ -132,6 +145,7 @@ namespace DrawingPlayground {
             try {
                 lock (engineLock) {
                     engine.ResetTimeoutTicks();
+                    engine.ResetMemoryUsage();
                     engine.Invoke(func, args);
                 }
             } catch (JavaScriptException error) {

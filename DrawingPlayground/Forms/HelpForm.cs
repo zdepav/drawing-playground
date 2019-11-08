@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace DrawingPlayground {
+namespace DrawingPlayground.Forms {
 
     public partial class HelpForm : DockContent {
 

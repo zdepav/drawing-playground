@@ -1,4 +1,4 @@
-namespace DrawingPlayground {
+namespace DrawingPlayground.Forms {
     partial class CanvasForm {
         /// <summary>
         /// Required designer variable.

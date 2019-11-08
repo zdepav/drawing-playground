@@ -1,4 +1,4 @@
-namespace DrawingPlayground {
+namespace DrawingPlayground.Forms {
     partial class CodeEditorForm {
         /// <summary>
         /// Required designer variable.

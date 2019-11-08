@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace DrawingPlayground {
+namespace DrawingPlayground.Forms {
 
     internal partial class MainForm : Form {
 
@@ -30,9 +30,9 @@ namespace DrawingPlayground {
                 Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     "DrawingPlayground"
-                    #if DEBUG
+#if DEBUG
                   , "Debug"
-                    #endif
+#endif
                 )
             );
             ProjectsDirectory = Directory.CreateDirectory(
@@ -53,60 +53,60 @@ namespace DrawingPlayground {
             dockPanel.DockLeftPortion = 0.5;
             dockPanel.DockRightPortion = 0.5;
 
-            ShowCodeEditorForm();
-            ShowLogForm();
-            ShowErrorListForm();
-            ShowCanvasForm();
-            ShowHelpForm();
+            AddCodeEditorForm();
+            AddLogForm();
+            AddErrorListForm();
+            AddCanvasForm();
+            AddHelpForm(false);
         }
 
-        private void ShowCodeEditorForm() {
+        private void AddCodeEditorForm(bool show = true) {
             if (codeEditorForm == null) {
                 codeEditorForm = new CodeEditorForm(jsRunner, this, log);
                 codeEditorForm.Closed += (sender, e) => codeEditorForm = null;
             }
-            if (codeEditorForm.IsHidden) {
+            if (codeEditorForm.IsHidden && show) {
                 codeEditorForm.Show(dockPanel, DockState.Document);
             }
         }
 
-        private void ShowErrorListForm() {
+        private void AddErrorListForm(bool show = true) {
             if (errorListForm == null) {
                 errorListForm = new ErrorListForm(this);
                 errorListForm.Closed += (sender, e) => errorListForm = null;
             }
-            if (errorListForm.IsHidden) {
+            if (errorListForm.IsHidden && show) {
                 errorListForm.Show(dockPanel, DockState.DockBottom);
             }
         }
 
-        private void ShowCanvasForm() {
+        private void AddCanvasForm(bool show = true) {
             if (canvasForm == null) {
                 canvasForm = new CanvasForm(jsRunner);
                 canvasForm.Closed += (sender, e) => canvasForm = null;
             }
-            if (canvasForm.IsHidden) {
+            if (canvasForm.IsHidden && show) {
                 canvasForm.Show(dockPanel, DockState.DockRight);
             }
         }
 
-        private void ShowLogForm() {
+        private void AddLogForm(bool show = true) {
             if (logForm == null) {
                 logForm = new LogForm();
                 logForm.Closed += (sender, e) => log.Output = logForm = null;
                 log.Output = logForm;
             }
-            if (logForm.IsHidden) {
+            if (logForm.IsHidden && show) {
                 logForm.Show(dockPanel, DockState.DockBottom);
             }
         }
 
-        private void ShowHelpForm() {
+        private void AddHelpForm(bool show = true) {
             if (helpForm == null) {
                 helpForm = new HelpForm();
                 helpForm.Closed += (sender, e) => helpForm = null;
             }
-            if (helpForm.IsHidden) {
+            if (helpForm.IsHidden && show) {
                 helpForm.Show(dockPanel, DockState.DockRightAutoHide);
             }
         }
@@ -115,15 +115,15 @@ namespace DrawingPlayground {
             LoadState();
         }
 
-        private void codeEditorToolStripMenuItem_Click(object sender, EventArgs e) => ShowCodeEditorForm();
+        private void codeEditorToolStripMenuItem_Click(object sender, EventArgs e) => AddCodeEditorForm();
 
-        private void canvasToolStripMenuItem_Click(object sender, EventArgs e) => ShowCanvasForm();
+        private void canvasToolStripMenuItem_Click(object sender, EventArgs e) => AddCanvasForm();
 
-        private void errorListToolStripMenuItem_Click(object sender, EventArgs e) => ShowErrorListForm();
+        private void errorListToolStripMenuItem_Click(object sender, EventArgs e) => AddErrorListForm();
 
-        private void showConsoleToolStripMenuItem_Click(object sender, EventArgs e) => ShowLogForm();
+        private void showConsoleToolStripMenuItem_Click(object sender, EventArgs e) => AddLogForm();
 
-        private void showHelpToolStripMenuItem_Click(object sender, EventArgs e) => ShowHelpForm();
+        private void showHelpToolStripMenuItem_Click(object sender, EventArgs e) => AddHelpForm();
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e) => jsRunner.Reset();
 
@@ -193,6 +193,15 @@ namespace DrawingPlayground {
             }
         }
 
+        private void RunCodeToolStripMenuItem_Click(object sender, EventArgs e) {
+            canvasForm?.ClearEvents();
+            jsRunner.Reset();
+            var errs = jsRunner.Run();
+            errorListForm?.SetRuntimeErrors(errs);
+            if (errs.Length == 0) {
+                canvasForm?.RefreshEvents();
+            }
+        }
     }
 
     public class AppState {

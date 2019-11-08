@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Jint.Runtime;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace DrawingPlayground {
+namespace DrawingPlayground.Forms {
 
     public partial class LogForm : DockContent, ILog {
 

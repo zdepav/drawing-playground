@@ -8,7 +8,7 @@ using Esprima;
 using FastColoredTextBoxNS;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace DrawingPlayground {
+namespace DrawingPlayground.Forms {
 
     internal partial class CodeEditorForm : DockContent {
 
@@ -44,6 +44,7 @@ namespace DrawingPlayground {
             syntaxErrors = new ParserException[0];
             code = "";
             InitializeComponent();
+            codeBox.AddStyle(ErrorStyle);
             ScriptFile = null;
         }
 
@@ -58,7 +59,7 @@ namespace DrawingPlayground {
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e) {
             while (codeChangedSinceRun) {
                 codeChangedSinceRun = false;
-                syntaxErrors = jsRunner.RunCode(code);
+                syntaxErrors = jsRunner.ParseCode(code);
                 if (syntaxErrors.Length == 0) {
                     mainForm.canvasForm?.RefreshEvents();
                 }
@@ -74,7 +75,7 @@ namespace DrawingPlayground {
                     codeBox.GetRange(index, index + 1).SetStyle(ErrorStyle);
                 }
             }
-            mainForm.errorListForm?.SetErrors(syntaxErrors);
+            mainForm.errorListForm?.SetSyntaxErrors(syntaxErrors);
         }
 
         private void saveTimer_Tick(object sender, EventArgs e) {

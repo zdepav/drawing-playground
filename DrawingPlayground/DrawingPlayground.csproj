@@ -91,29 +91,29 @@
     <Compile Include="Canvas.Designer.cs">
       <DependentUpon>Canvas.cs</DependentUpon>
     </Compile>
-    <Compile Include="CanvasForm.cs">
+    <Compile Include="Forms\CanvasForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CanvasForm.Designer.cs">
+    <Compile Include="Forms\CanvasForm.Designer.cs">
       <DependentUpon>CanvasForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CodeEditorForm.cs">
+    <Compile Include="Forms\CodeEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CodeEditorForm.Designer.cs">
+    <Compile Include="Forms\CodeEditorForm.Designer.cs">
       <DependentUpon>CodeEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ErrorListForm.cs">
+    <Compile Include="Forms\ErrorListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ErrorListForm.Designer.cs">
+    <Compile Include="Forms\ErrorListForm.Designer.cs">
       <DependentUpon>ErrorListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FileUtils.cs" />
-    <Compile Include="HelpForm.cs">
+    <Compile Include="Forms\HelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HelpForm.Designer.cs">
+    <Compile Include="Forms\HelpForm.Designer.cs">
       <DependentUpon>HelpForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ILog.cs" />
@@ -122,22 +122,22 @@
     <Compile Include="ColorUtils.cs" />
     <Compile Include="JsRunner.cs" />
     <Compile Include="LogEncapsulator.cs" />
-    <Compile Include="LogForm.cs">
+    <Compile Include="Forms\LogForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LogForm.Designer.cs">
+    <Compile Include="Forms\LogForm.Designer.cs">
       <DependentUpon>LogForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewProjectForm.cs">
+    <Compile Include="Forms\NewProjectForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewProjectForm.Designer.cs">
+    <Compile Include="Forms\NewProjectForm.Designer.cs">
       <DependentUpon>NewProjectForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -145,25 +145,25 @@
     <EmbeddedResource Include="Canvas.resx">
       <DependentUpon>Canvas.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CanvasForm.resx">
+    <EmbeddedResource Include="Forms\CanvasForm.resx">
       <DependentUpon>CanvasForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CodeEditorForm.resx">
+    <EmbeddedResource Include="Forms\CodeEditorForm.resx">
       <DependentUpon>CodeEditorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ErrorListForm.resx">
+    <EmbeddedResource Include="Forms\ErrorListForm.resx">
       <DependentUpon>ErrorListForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HelpForm.resx">
+    <EmbeddedResource Include="Forms\HelpForm.resx">
       <DependentUpon>HelpForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogForm.resx">
+    <EmbeddedResource Include="Forms\LogForm.resx">
       <DependentUpon>LogForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewProjectForm.resx">
+    <EmbeddedResource Include="Forms\NewProjectForm.resx">
       <DependentUpon>NewProjectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

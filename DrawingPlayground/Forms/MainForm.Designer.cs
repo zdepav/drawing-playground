@@ -1,6 +1,6 @@
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace DrawingPlayground {
+namespace DrawingPlayground.Forms {
     partial class MainForm {
         /// <summary>
         /// Required designer variable.
@@ -47,6 +47,7 @@ namespace DrawingPlayground {
             this.runCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vs2015LightTheme = new WeifenLuo.WinFormsUI.Docking.VS2015LightTheme();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -199,7 +200,7 @@ namespace DrawingPlayground {
             this.runCodeToolStripMenuItem});
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
             this.runToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.runToolStripMenuItem.Text = "Run";
+            this.runToolStripMenuItem.Text = "&Run";
             // 
             // runCodeToolStripMenuItem
             // 
@@ -207,13 +208,19 @@ namespace DrawingPlayground {
             this.runCodeToolStripMenuItem.Name = "runCodeToolStripMenuItem";
             this.runCodeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.runCodeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.runCodeToolStripMenuItem.Text = "Run code";
+            this.runCodeToolStripMenuItem.Text = "&Run code";
+            this.runCodeToolStripMenuItem.Click += new System.EventHandler(this.RunCodeToolStripMenuItem_Click);
             // 
             // timer
             // 
             this.timer.Enabled = true;
             this.timer.Interval = 15000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.AddExtension = false;
+            this.saveFileDialog.Filter = "JavaScript files|*.js";
             // 
             // MainForm
             // 
@@ -260,6 +267,7 @@ namespace DrawingPlayground {
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runCodeToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }
 

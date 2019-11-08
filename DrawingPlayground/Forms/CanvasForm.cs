@@ -1,4 +1,5 @@
 #nullable enable
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +9,7 @@ using System.Windows.Forms;
 using Jint.Native.Object;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace DrawingPlayground {
+namespace DrawingPlayground.Forms {
 
     internal partial class CanvasForm : DockContent {
 
@@ -38,12 +39,13 @@ namespace DrawingPlayground {
         }
 
         private void RunEvent(string name, params object[] args) {
-            if (!enabledCheckBox.Checked) {
-                return;
-            }
             if (jsEvents.TryGetValue(name, out var func)) {
                 jsRunner.InvokeFunction(func, args);
             }
+        }
+
+        internal void ClearEvents() {
+            jsEvents.Clear();
         }
 
         public void RefreshEvents() {
@@ -64,7 +66,7 @@ namespace DrawingPlayground {
 
         protected override string GetPersistString() => "Canvas";
 
-        private void timer_Tick(object sender, System.EventArgs e) {
+        private void timer_Tick(object sender, EventArgs e) {
             Refresh();
         }
 
@@ -94,7 +96,6 @@ namespace DrawingPlayground {
             pressedKeys.Remove(e.KeyCode);
             RunEvent("keyUp", e.KeyCode.ToString());
         }
-
     }
 
 }

@@ -1,4 +1,4 @@
-namespace DrawingPlayground {
+namespace DrawingPlayground.Forms {
     partial class ErrorListForm {
         /// <summary>
         /// Required designer variable.

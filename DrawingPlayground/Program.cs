@@ -5,7 +5,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Jint;
 
-namespace DrawingPlayground {
+namespace DrawingPlayground.Forms {
 
     internal static class Program {
 
