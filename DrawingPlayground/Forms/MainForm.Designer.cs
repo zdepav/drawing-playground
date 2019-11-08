@@ -48,6 +48,7 @@ namespace DrawingPlayground.Forms {
             this.vs2015LightTheme = new WeifenLuo.WinFormsUI.Docking.VS2015LightTheme();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.stopRunningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -197,7 +198,8 @@ namespace DrawingPlayground.Forms {
             // runToolStripMenuItem
             // 
             this.runToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.runCodeToolStripMenuItem});
+            this.runCodeToolStripMenuItem,
+            this.stopRunningToolStripMenuItem});
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
             this.runToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.runToolStripMenuItem.Text = "&Run";
@@ -221,6 +223,12 @@ namespace DrawingPlayground.Forms {
             // 
             this.saveFileDialog.AddExtension = false;
             this.saveFileDialog.Filter = "JavaScript files|*.js";
+            // 
+            // stopRunningToolStripMenuItem
+            // 
+            this.stopRunningToolStripMenuItem.Name = "stopRunningToolStripMenuItem";
+            this.stopRunningToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stopRunningToolStripMenuItem.Text = "&Stop running";
             // 
             // MainForm
             // 
@@ -268,6 +276,7 @@ namespace DrawingPlayground.Forms {
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runCodeToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem stopRunningToolStripMenuItem;
     }
 }
 
