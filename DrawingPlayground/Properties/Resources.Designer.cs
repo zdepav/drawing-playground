@@ -263,6 +263,26 @@ namespace DrawingPlayground.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        internal static System.Drawing.Icon PauseIcon {
+            get {
+                object obj = ResourceManager.GetObject("PauseIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PauseImage {
+            get {
+                object obj = ResourceManager.GetObject("PauseImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         internal static System.Drawing.Icon ResetIcon {
             get {
                 object obj = ResourceManager.GetObject("ResetIcon", resourceCulture);
@@ -296,6 +316,46 @@ namespace DrawingPlayground.Properties {
         internal static System.Drawing.Bitmap RunImage {
             get {
                 object obj = ResourceManager.GetObject("RunImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon StartPausedIcon {
+            get {
+                object obj = ResourceManager.GetObject("StartPausedIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap StartPausedImage {
+            get {
+                object obj = ResourceManager.GetObject("StartPausedImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon StopIcon {
+            get {
+                object obj = ResourceManager.GetObject("StopIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap StopImage {
+            get {
+                object obj = ResourceManager.GetObject("StopImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

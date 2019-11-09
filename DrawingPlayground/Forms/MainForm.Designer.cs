@@ -36,7 +36,6 @@ namespace DrawingPlayground.Forms {
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.codeEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.canvasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,10 +44,13 @@ namespace DrawingPlayground.Forms {
             this.showHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startPausedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pauseRunningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopRunningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vs2015LightTheme = new WeifenLuo.WinFormsUI.Docking.VS2015LightTheme();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.stopRunningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.localsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,6 +118,7 @@ namespace DrawingPlayground.Forms {
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
             this.importToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.importToolStripMenuItem.Text = "&Import";
+            this.importToolStripMenuItem.Visible = false;
             // 
             // exportToolStripMenuItem
             // 
@@ -126,21 +129,9 @@ namespace DrawingPlayground.Forms {
             // 
             // scriptToolStripMenuItem
             // 
-            this.scriptToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetToolStripMenuItem});
             this.scriptToolStripMenuItem.Name = "scriptToolStripMenuItem";
             this.scriptToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.scriptToolStripMenuItem.Text = "&Edit";
-            // 
-            // resetToolStripMenuItem
-            // 
-            this.resetToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("resetToolStripMenuItem.Image")));
-            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.R)));
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.resetToolStripMenuItem.Text = "&Reset Script";
-            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
             // panelToolStripMenuItem
             // 
@@ -149,6 +140,7 @@ namespace DrawingPlayground.Forms {
             this.canvasToolStripMenuItem,
             this.errorListToolStripMenuItem,
             this.showConsoleToolStripMenuItem,
+            this.localsToolStripMenuItem,
             this.showHelpToolStripMenuItem});
             this.panelToolStripMenuItem.Name = "panelToolStripMenuItem";
             this.panelToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
@@ -158,7 +150,7 @@ namespace DrawingPlayground.Forms {
             // 
             this.codeEditorToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("codeEditorToolStripMenuItem.Image")));
             this.codeEditorToolStripMenuItem.Name = "codeEditorToolStripMenuItem";
-            this.codeEditorToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.codeEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.codeEditorToolStripMenuItem.Text = "&Code Editor";
             this.codeEditorToolStripMenuItem.Click += new System.EventHandler(this.codeEditorToolStripMenuItem_Click);
             // 
@@ -166,7 +158,7 @@ namespace DrawingPlayground.Forms {
             // 
             this.canvasToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("canvasToolStripMenuItem.Image")));
             this.canvasToolStripMenuItem.Name = "canvasToolStripMenuItem";
-            this.canvasToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.canvasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.canvasToolStripMenuItem.Text = "Can&vas";
             this.canvasToolStripMenuItem.Click += new System.EventHandler(this.canvasToolStripMenuItem_Click);
             // 
@@ -174,7 +166,7 @@ namespace DrawingPlayground.Forms {
             // 
             this.errorListToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("errorListToolStripMenuItem.Image")));
             this.errorListToolStripMenuItem.Name = "errorListToolStripMenuItem";
-            this.errorListToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.errorListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.errorListToolStripMenuItem.Text = "&Error List";
             this.errorListToolStripMenuItem.Click += new System.EventHandler(this.errorListToolStripMenuItem_Click);
             // 
@@ -182,7 +174,7 @@ namespace DrawingPlayground.Forms {
             // 
             this.showConsoleToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showConsoleToolStripMenuItem.Image")));
             this.showConsoleToolStripMenuItem.Name = "showConsoleToolStripMenuItem";
-            this.showConsoleToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.showConsoleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showConsoleToolStripMenuItem.Text = "C&onsole";
             this.showConsoleToolStripMenuItem.Click += new System.EventHandler(this.showConsoleToolStripMenuItem_Click);
             // 
@@ -191,7 +183,7 @@ namespace DrawingPlayground.Forms {
             this.showHelpToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showHelpToolStripMenuItem.Image")));
             this.showHelpToolStripMenuItem.Name = "showHelpToolStripMenuItem";
             this.showHelpToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.showHelpToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.showHelpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showHelpToolStripMenuItem.Text = "&Help";
             this.showHelpToolStripMenuItem.Click += new System.EventHandler(this.showHelpToolStripMenuItem_Click);
             // 
@@ -199,6 +191,8 @@ namespace DrawingPlayground.Forms {
             // 
             this.runToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runCodeToolStripMenuItem,
+            this.startPausedToolStripMenuItem,
+            this.pauseRunningToolStripMenuItem,
             this.stopRunningToolStripMenuItem});
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
             this.runToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
@@ -209,9 +203,33 @@ namespace DrawingPlayground.Forms {
             this.runCodeToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.RunImage;
             this.runCodeToolStripMenuItem.Name = "runCodeToolStripMenuItem";
             this.runCodeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.runCodeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.runCodeToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.runCodeToolStripMenuItem.Text = "&Run code";
             this.runCodeToolStripMenuItem.Click += new System.EventHandler(this.RunCodeToolStripMenuItem_Click);
+            // 
+            // startPausedToolStripMenuItem
+            // 
+            this.startPausedToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.StartPausedImage;
+            this.startPausedToolStripMenuItem.Name = "startPausedToolStripMenuItem";
+            this.startPausedToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
+            this.startPausedToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.startPausedToolStripMenuItem.Text = "S&tart paused";
+            // 
+            // pauseRunningToolStripMenuItem
+            // 
+            this.pauseRunningToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.PauseImage;
+            this.pauseRunningToolStripMenuItem.Name = "pauseRunningToolStripMenuItem";
+            this.pauseRunningToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
+            this.pauseRunningToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.pauseRunningToolStripMenuItem.Text = "&Pause running";
+            // 
+            // stopRunningToolStripMenuItem
+            // 
+            this.stopRunningToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.StopImage;
+            this.stopRunningToolStripMenuItem.Name = "stopRunningToolStripMenuItem";
+            this.stopRunningToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
+            this.stopRunningToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.stopRunningToolStripMenuItem.Text = "&Stop running";
             // 
             // timer
             // 
@@ -224,11 +242,11 @@ namespace DrawingPlayground.Forms {
             this.saveFileDialog.AddExtension = false;
             this.saveFileDialog.Filter = "JavaScript files|*.js";
             // 
-            // stopRunningToolStripMenuItem
+            // localsToolStripMenuItem
             // 
-            this.stopRunningToolStripMenuItem.Name = "stopRunningToolStripMenuItem";
-            this.stopRunningToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.stopRunningToolStripMenuItem.Text = "&Stop running";
+            this.localsToolStripMenuItem.Name = "localsToolStripMenuItem";
+            this.localsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.localsToolStripMenuItem.Text = "&Locals";
             // 
             // MainForm
             // 
@@ -261,7 +279,6 @@ namespace DrawingPlayground.Forms {
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scriptToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem panelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showConsoleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showHelpToolStripMenuItem;
@@ -277,6 +294,9 @@ namespace DrawingPlayground.Forms {
         private System.Windows.Forms.ToolStripMenuItem runCodeToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem stopRunningToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pauseRunningToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startPausedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem localsToolStripMenuItem;
     }
 }
 
