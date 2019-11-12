@@ -31,7 +31,7 @@ namespace DrawingPlayground.JsApi {
         }
 
         public void setTransform(Matrix? matrix) {
-            this.matrix = matrix ?? throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasPattern), nameof(setTransform), nameof(matrix), null);
+            this.matrix = matrix ?? throw JsErrorUtils.InvalidValue(engine, nameof(CanvasPattern), nameof(setTransform), nameof(matrix), null);
         }
 
         internal Brush MakeBrush() {

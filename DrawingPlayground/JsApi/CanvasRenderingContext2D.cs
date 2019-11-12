@@ -21,6 +21,8 @@ namespace DrawingPlayground.JsApi {
 
         private readonly Engine engine;
 
+        public SVGMatrix createSVGMatrix() => new SVGMatrix(engine);
+
         #if RENDER_BACKEND_SYSTEM_DRAWING
 
         private readonly Graphics graphics;
@@ -103,7 +105,7 @@ namespace DrawingPlayground.JsApi {
                     _fillStyleBrush = p.MakeBrush();
                     _fillStyle = value;
                 }
-                throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(fillStyle), value);
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(fillStyle), value);
             }
         }
 
@@ -128,7 +130,7 @@ namespace DrawingPlayground.JsApi {
                     _strokeStyle = value;
                     return;
                 }
-                throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(strokeStyle), value);
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(strokeStyle), value);
             }
         }
 
@@ -157,7 +159,7 @@ namespace DrawingPlayground.JsApi {
                     "round" => LineJoin.Round,
                     "bevel" => LineJoin.Bevel,
                     "miter" => LineJoin.Miter,
-                    _ => throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(lineJoin), value)
+                    _ => throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(lineJoin), value)
                 };
                 _strokeStylePen.LineJoin = _lineJoin;
             }
@@ -176,7 +178,7 @@ namespace DrawingPlayground.JsApi {
                     "square" => LineCap.Square,
                     "round" => LineCap.Round,
                     "butt" => LineCap.Flat,
-                    _ => throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(lineCap), value)
+                    _ => throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(lineCap), value)
                 };
                 _strokeStylePen.StartCap = _lineCap;
                 _strokeStylePen.EndCap = _lineCap;
@@ -230,7 +232,7 @@ namespace DrawingPlayground.JsApi {
                     "high" => SmoothingMode.HighQuality,
                     "medium" => SmoothingMode.AntiAlias,
                     "low" => SmoothingMode.HighSpeed,
-                    _ => throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(imageSmoothingQuality), value)
+                    _ => throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(imageSmoothingQuality), value)
                 };
                 graphics.SmoothingMode = _smoothingMode;
             }
@@ -250,7 +252,7 @@ namespace DrawingPlayground.JsApi {
             }
             set {
                 if (value == null) {
-                    throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(font), null);
+                    throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(font), null);
                 }
                 var m = fontRegex.Match(value);
                 if (m.Success) {
@@ -264,7 +266,7 @@ namespace DrawingPlayground.JsApi {
                     var unit = m.Groups["Unit"].Value switch {
                         "pt" => GraphicsUnit.Point,
                         "px" => GraphicsUnit.Pixel,
-                        _ => throw JsErrorUtils.JsError(engine, $"Size unit '{m.Groups["Unit"].Value}' is not supported for {nameof(CanvasRenderingContext2D)}.{nameof(font)}")
+                        _ => throw JsErrorUtils.Error(engine, $"Size unit '{m.Groups["Unit"].Value}' is not supported for {nameof(CanvasRenderingContext2D)}.{nameof(font)}")
                     };
                     var name = m.Groups["Family"].Value;
                     if (name[0] == '"') {
@@ -278,23 +280,23 @@ namespace DrawingPlayground.JsApi {
                     };
                     _font = new Font(family, size, fontStyle, unit);
                 }
-                throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(font), value);
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(font), value);
             }
         }
 
         public float globalAlpha {
-            get => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(globalAlpha));
-            set => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(globalAlpha));
+            get => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(globalAlpha));
+            set => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(globalAlpha));
         }
 
         public string? globalCompositeOperation {
-            get => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(globalCompositeOperation));
-            set => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(globalCompositeOperation));
+            get => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(globalCompositeOperation));
+            set => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(globalCompositeOperation));
         }
 
         public object? currentTransform {
-            get => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(currentTransform));
-            set => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(currentTransform));
+            get => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(currentTransform));
+            set => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(currentTransform));
         }
 
         public string? direction {
@@ -323,34 +325,34 @@ namespace DrawingPlayground.JsApi {
                         }
                         return;
                     default:
-                        throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(direction), value);
+                        throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(direction), value);
                 }
             }
         }
 
         public string? filter {
-            get => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(filter));
-            set => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(filter));
+            get => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(filter));
+            set => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(filter));
         }
 
         public float shadowBlur {
-            get => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowBlur));
-            set => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowBlur));
+            get => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowBlur));
+            set => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowBlur));
         }
 
         public string? shadowColor {
-            get => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowColor));
-            set => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowColor));
+            get => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowColor));
+            set => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowColor));
         }
 
         public float shadowOffsetX {
-            get => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowOffsetX));
-            set => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowOffsetX));
+            get => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowOffsetX));
+            set => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowOffsetX));
         }
 
         public float shadowOffsetY {
-            get => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowOffsetY));
-            set => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowOffsetY));
+            get => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowOffsetY));
+            set => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(shadowOffsetY));
         }
 
         private readonly StringFormat _stringFormat;
@@ -398,14 +400,14 @@ namespace DrawingPlayground.JsApi {
                         TextAlignLeftRight = true;
                         return;
                     default:
-                        throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(textAlign), value);
+                        throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(textAlign), value);
                 }
             }
         }
 
         public float textBaseline {
-            get => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(textBaseline));
-            set => throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(textBaseline));
+            get => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(textBaseline));
+            set => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(textBaseline));
         }
 
         #endregion
@@ -417,12 +419,12 @@ namespace DrawingPlayground.JsApi {
         }
 
         public CanvasGradient createRadialGradient(float x0, float y0, float r0, float x1, float y1, float r1) {
-            throw JsErrorUtils.JsErrorNotSupported(engine, nameof(CanvasRenderingContext2D), nameof(createRadialGradient));
+            throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(createRadialGradient));
         }
 
         public CanvasPattern createPattern(Image? image, string? repetition) {
             if (image is null) {
-                throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(createPattern), nameof(image), null);
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(createPattern), nameof(image), null);
             }
             var wrap = repetition switch {
                 null => WrapMode.Tile,
@@ -431,7 +433,7 @@ namespace DrawingPlayground.JsApi {
                 "repeat-x" => WrapMode.Tile,
                 "repeat-y" => WrapMode.Tile,
                 "no-repeat" => WrapMode.Clamp,
-                _ => throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(createPattern), nameof(repetition), repetition)
+                _ => throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(createPattern), nameof(repetition), repetition)
             };
             return new CanvasPattern(engine, image, wrap);
         }

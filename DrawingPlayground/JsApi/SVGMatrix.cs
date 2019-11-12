@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Jint;
+using SkiaSharp;
 
 namespace DrawingPlayground.JsApi {
 
@@ -91,94 +92,86 @@ namespace DrawingPlayground.JsApi {
         private SVGMatrix mult(float a, float b, float c, float d, float e, float f) {
             return new SVGMatrix(
                 engine,
-                this.a * a + this.c * b,
-                this.b * a + this.d * b,
-                this.a * c + this.c * d,
-                this.b * c + this.d * d,
-                this.a * e + this.c * f + this.e,
-                this.b * e + this.d * f + this.f
+                _a * a + _c * b,
+                _b * a + _d * b,
+                _a * c + _c * d,
+                _b * c + _d * d,
+                _a * e + _c * f + _e,
+                _b * e + _d * f + _f
             );
         }
 
         private SVGMatrix mult(SVGMatrix m) {
             return new SVGMatrix(
                 engine,
-                a * m.a + c * m.b,
-                b * m.a + d * m.b,
-                a * m.c + c * m.d,
-                b * m.c + d * m.d,
-                a * m.e + c * m.f + e,
-                b * m.e + d * m.f + f
+                _a * m._a + _c * m._b,
+                _b * m._a + _d * m._b,
+                _a * m._c + _c * m._d,
+                _b * m._c + _d * m._d,
+                _a * m._e + _c * m._f + _e,
+                _b * m._e + _d * m._f + _f
             );
         }
 
         public SVGMatrix multiply(SVGMatrix? secondMatrix) {
             if (secondMatrix is null) {
-                throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(SVGMatrix), nameof(multiply), nameof(secondMatrix), null);
+                throw JsErrorUtils.InvalidValue(engine, nameof(SVGMatrix), nameof(multiply), nameof(secondMatrix), null);
             }
             return mult(secondMatrix);
         }
 
+        public SVGMatrix translate(float x, float y) => mult(1, 0, 0, 1, x, y);
 
+        public SVGMatrix scale(float s) => mult(s, 0, 0, s, 0, 0);
 
+        public SVGMatrix scaleNonUniform(float x, float y) => mult(x, 0, 0, y, 0, 0);
 
-        /*
+        public SVGMatrix rotate(float degrees) {
+            var rad = MathUtils.Deg2Rad(degrees);
+            var c = (float)Math.Cos(rad);
+            var s = (float)Math.Sin(rad);
+            return mult(c, s, -s, c, 0, 0);
+        }
 
-        # Multiplication of another Matrix
-        multiply: (m) ->
-        @_mult m.a, m.b, m.c, m.d, m.e, m.f
+        public SVGMatrix rotateFromVector(float x, float y) {
+            var length = (float)Math.Sqrt(x * x + y * y);
+            if (length < 0.000001) return this;
+            x /= length;
+            y /= length;
+            return mult(x, y, -y, x, 0, 0);
+        }
 
-            translate: (x, y) ->
-        @_mult 1, 0, 0, 1, x, y
+        public SVGMatrix flipX() => mult(-1, 0, 0, 1, 0, 0);
 
-            scale: (s) ->
-        @_mult s, 0, 0, s, 0, 0
+        public SVGMatrix flipY() => mult(1, 0, 0, -1, 0, 0);
 
-        scaleNonUniform: (x, y) ->
-        @_mult x, 0, 0, y, 0, 0
+        public SVGMatrix skewX(float degrees) => mult(1, 0, MathUtils.TanD(degrees), 1, 0, 0);
 
-        rotate: (degrees) ->
-        @_rotate degrees * PI_DEG
+        public SVGMatrix skewY(float degrees) => mult(1, MathUtils.TanD(degrees), 0, 1, 0, 0);
 
-            rotateFromVector: (x, y) ->
-        @_rotate Math.atan2 y, x
-
-            _rotate: (radians) ->
-        c = Math.cos radians
-        s = Math.sin radians
-        @_mult c, s, -s, c, 0, 0
-
-        flipX: ->
-        @_mult -1, 0, 0, 1, 0, 0
-
-        flipY: ->
-        @_mult 1, 0, 0, -1, 0, 0
-
-        skewX: (degrees) ->
-        @_mult 1, 0, Math.tan(degrees * PI_DEG), 1, 0, 0
-
-        skewY: (degrees) ->
-        @_mult 1, Math.tan(degrees * PI_DEG), 0, 1, 0, 0
-
-        inverse: ->
-        det = @a*@d - @c*@b
-        return null if det == 0
-    
-        new JSMatrix(
-            @d / det
-        -@b / det
-        -@c / det
-            @a / det
-            (@c*@f-@e*@d) / det
-            (@e*@b-@a*@f) / det
-        )
-            */
+        public SVGMatrix? inverse() {
+            var det = _a * _d - _c * _b;
+            if (det == 0) return null;
+            return new SVGMatrix(
+                engine,
+                _d / det,
+                -_b / det,
+                -_c / det,
+                _a / det,
+                (_c * _f - _e * _d) / det,
+                (_e * _b - _a * _f) / det
+            );
+        }
 
 
         #if RENDER_BACKEND_SYSTEM_DRAWING
 
+        internal Matrix ToMatrix() => new Matrix(a, b, c, d, e, f);
 
         #elif RENDER_BACKEND_SKIA
+
+        internal SKMatrix ToMatrix() => new SKMatrix { Values = new[] { a, c, e, b, d, f, 0f, 0f, 1f } };
+            
         #endif
 
     }

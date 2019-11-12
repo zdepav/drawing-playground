@@ -27,7 +27,7 @@ namespace DrawingPlayground.JsApi {
 
         public Path2D(Path2D? path) {
             if (path is null) {
-                throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(Path2D), nameof(Path2D), nameof(path), null);
+                throw JsErrorUtils.InvalidValue(engine, nameof(Path2D), nameof(Path2D), nameof(path), null);
             }
             engine = path.engine;
             Path = (GraphicsPath)path.Path.Clone();
@@ -35,10 +35,10 @@ namespace DrawingPlayground.JsApi {
 
         public void addPath(Path2D? path, Matrix? transform) {
             if (path is null) {
-                throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(Path2D), nameof(Path2D), nameof(path), null);
+                throw JsErrorUtils.InvalidValue(engine, nameof(Path2D), nameof(Path2D), nameof(path), null);
             }
             if (transform is null) {
-                throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(Path2D), nameof(Path2D), nameof(transform), null);
+                throw JsErrorUtils.InvalidValue(engine, nameof(Path2D), nameof(Path2D), nameof(transform), null);
             }
             var gp = (GraphicsPath)path.Path.Clone();
             gp.Flatten(transform);

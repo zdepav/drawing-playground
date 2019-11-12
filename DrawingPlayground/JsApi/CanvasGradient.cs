@@ -53,14 +53,14 @@ namespace DrawingPlayground.JsApi {
         
         public void addColorStop(float offset, string? color) {
             if (offset < 0f || offset > 1f) {
-                throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasGradient), nameof(addColorStop), nameof(offset), offset);
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasGradient), nameof(addColorStop), nameof(offset), offset);
             }
             if (color is null) {
-                throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasGradient), nameof(addColorStop), nameof(color), null);
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasGradient), nameof(addColorStop), nameof(color), null);
             } else if (ColorUtils.TryGetCssColor(color, out var col)) {
                 colorStops.Add((offset, col));
             } else {
-                throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasGradient), nameof(addColorStop), nameof(color), color);
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasGradient), nameof(addColorStop), nameof(color), color);
             }
         }
 
