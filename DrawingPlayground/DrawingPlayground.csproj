@@ -134,7 +134,10 @@
     <Compile Include="JsApi\CanvasRenderingContext2D.cs" />
     <Compile Include="JsApi\ColorUtils.cs" />
     <Compile Include="JsApi\JsErrorUtils.cs" />
+    <Compile Include="JsApi\MathUtils.cs" />
+    <Compile Include="JsApi\Path2D.cs" />
     <Compile Include="JsApi\RenderBackend.cs" />
+    <Compile Include="JsApi\SVGMatrix.cs" />
     <Compile Include="JsRunner.cs" />
     <Compile Include="LogEncapsulator.cs" />
     <Compile Include="Forms\LogForm.cs">

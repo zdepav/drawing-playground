@@ -8,6 +8,7 @@ using Jint;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+
 #elif RENDER_BACKEND_SKIA
 using SkiaSharp;
 #endif
@@ -23,6 +24,8 @@ namespace DrawingPlayground.JsApi {
         #if RENDER_BACKEND_SYSTEM_DRAWING
 
         private readonly Graphics graphics;
+
+        private GraphicsPath path;
 
         public CanvasRenderingContext2D(Engine engine, Graphics graphics) {
             this.engine = engine;
@@ -46,6 +49,7 @@ namespace DrawingPlayground.JsApi {
             graphics.SmoothingMode = _smoothingMode = SmoothingMode.HighSpeed;
             _font = new Font(new FontFamily(GenericFontFamilies.SansSerif), 10, GraphicsUnit.Pixel);
             _stringFormat = new StringFormat();
+            path = new GraphicsPath();
         }
 
         private void MakeNewPen(Color color) {
@@ -351,6 +355,7 @@ namespace DrawingPlayground.JsApi {
 
         private readonly StringFormat _stringFormat;
         private bool TextAlignLeftRight;
+
         public string? textAlign {
             get {
                 switch (_stringFormat.Alignment) {
@@ -419,27 +424,56 @@ namespace DrawingPlayground.JsApi {
             if (image is null) {
                 throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(createPattern), nameof(image), null);
             }
-            WrapMode wrap;
-            switch (repetition) {
-                case null:
-                case "":
-                case "repeat":
-                case "repeat-x":
-                case "repeat-y":
-                    wrap = WrapMode.Tile;
-                    break;
-                case "no-repeat":
-                    wrap = WrapMode.Clamp;
-                    break;
-                default:
-                    throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(createPattern), nameof(repetition), repetition);
-            }
+            var wrap = repetition switch {
+                null => WrapMode.Tile,
+                "" => WrapMode.Tile,
+                "repeat" => WrapMode.Tile,
+                "repeat-x" => WrapMode.Tile,
+                "repeat-y" => WrapMode.Tile,
+                "no-repeat" => WrapMode.Clamp,
+                _ => throw JsErrorUtils.JsErrorInvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(createPattern), nameof(repetition), repetition)
+            };
             return new CanvasPattern(engine, image, wrap);
         }
 
         public void fillRect(float x, float y, float width, float height) {
             graphics.FillRectangle(_fillStyleBrush, x, y, width, height);
         }
+
+        public void ellipse(
+            float x,
+            float y,
+            float radiusX,
+            float radiusY,
+            float rotation,
+            float startAngle,
+            float endAngle,
+            bool anticlockwise
+        ) {
+            var gp = new GraphicsPath();
+            if (anticlockwise) {
+                gp.AddArc(
+                    x, y,
+                    radiusX, radiusY,
+                    -MathUtils.Deg2Rad(startAngle),
+                    -MathUtils.Deg2Rad(endAngle - startAngle)
+                );
+            } else {
+                gp.AddArc(
+                    x, y,
+                    radiusX, radiusY,
+                    MathUtils.Deg2Rad(startAngle),
+                    MathUtils.Deg2Rad(endAngle - startAngle)
+                );
+            }
+            var matrix = new Matrix();
+            matrix.Rotate();
+            gp.Flatten();
+            path.AddPath(gp, false);
+        }
+
+        public void ellipse(float x, float y, float radiusX, float radiusY, float rotation, float startAngle, float endAngle) =>
+            ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, false);
 
         #endregion
 
@@ -450,7 +484,6 @@ namespace DrawingPlayground.JsApi {
         }
 
         #elif RENDER_BACKEND_SKIA
-        
         private readonly SKCanvas canv;
 
         public CanvasRenderingContext2D(Engine engine, SKCanvas canv) {
@@ -802,8 +835,8 @@ namespace DrawingPlayground.JsApi {
             _fillStylePaint.Dispose();
             _strokeStylePaint.Dispose();
         }
-        
-#endif
+
+        #endif
 
     }
 
