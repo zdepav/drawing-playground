@@ -21,13 +21,13 @@ namespace DrawingPlayground.JsApi {
 
         private readonly Engine engine;
 
+        private Path2D path;
+
         public SVGMatrix createSVGMatrix() => new SVGMatrix(engine);
 
         #if RENDER_BACKEND_SYSTEM_DRAWING
 
         private readonly Graphics graphics;
-
-        private GraphicsPath path;
 
         public CanvasRenderingContext2D(Engine engine, Graphics graphics) {
             this.engine = engine;
@@ -51,7 +51,7 @@ namespace DrawingPlayground.JsApi {
             graphics.SmoothingMode = _smoothingMode = SmoothingMode.HighSpeed;
             _font = new Font(new FontFamily(GenericFontFamilies.SansSerif), 10, GraphicsUnit.Pixel);
             _stringFormat = new StringFormat();
-            path = new GraphicsPath();
+            path = new Path2D(engine);
         }
 
         private void MakeNewPen(Color color) {
