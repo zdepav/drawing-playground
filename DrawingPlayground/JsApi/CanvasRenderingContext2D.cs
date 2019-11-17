@@ -452,30 +452,12 @@ namespace DrawingPlayground.JsApi {
             float endAngle,
             bool anticlockwise
         ) {
-            var gp = new GraphicsPath();
-            if (anticlockwise) {
-                gp.AddArc(
-                    x, y,
-                    radiusX, radiusY,
-                    -MathUtils.Deg2Rad(startAngle),
-                    -MathUtils.Deg2Rad(endAngle - startAngle)
-                );
-            } else {
-                gp.AddArc(
-                    x, y,
-                    radiusX, radiusY,
-                    MathUtils.Deg2Rad(startAngle),
-                    MathUtils.Deg2Rad(endAngle - startAngle)
-                );
-            }
-            var matrix = new Matrix();
-            matrix.Rotate();
-            gp.Flatten();
-            path.AddPath(gp, false);
+            path.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
         }
 
-        public void ellipse(float x, float y, float radiusX, float radiusY, float rotation, float startAngle, float endAngle) =>
-            ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, false);
+        public void ellipse(float x, float y, float radiusX, float radiusY, float rotation, float startAngle, float endAngle) {
+            path.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, false);
+        }
 
         #endregion
 

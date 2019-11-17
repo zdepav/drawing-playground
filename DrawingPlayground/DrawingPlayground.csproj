@@ -139,6 +139,7 @@
     <Compile Include="JsApi\Path2DConstructor.cs" />
     <Compile Include="JsApi\RenderBackend.cs" />
     <Compile Include="JsApi\SVGMatrix.cs" />
+    <Compile Include="JsApi\FloatUtils.cs" />
     <Compile Include="JsRunner.cs" />
     <Compile Include="LogEncapsulator.cs" />
     <Compile Include="Forms\LogForm.cs">

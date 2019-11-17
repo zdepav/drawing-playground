@@ -16,6 +16,7 @@ namespace DrawingPlayground.JsApi {
         private readonly Engine engine;
 
         private float _a;
+        /// <summary>A float representing the a component of the matrix.</summary>
         public float a {
             get => _a;
             set {
@@ -26,6 +27,7 @@ namespace DrawingPlayground.JsApi {
         }
 
         private float _b;
+        /// <summary>A float representing the b component of the matrix.</summary>
         public float b {
             get => _b;
             set {
@@ -36,6 +38,7 @@ namespace DrawingPlayground.JsApi {
         }
 
         private float _c;
+        /// <summary>A float representing the c component of the matrix.</summary>
         public float c {
             get => _c;
             set {
@@ -46,6 +49,7 @@ namespace DrawingPlayground.JsApi {
         }
 
         private float _d;
+        /// <summary>A float representing the d component of the matrix.</summary>
         public float d {
             get => _d;
             set {
@@ -56,6 +60,7 @@ namespace DrawingPlayground.JsApi {
         }
 
         private float _e;
+        /// <summary>A float representing the e component of the matrix.</summary>
         public float e {
             get => _e;
             set {
@@ -66,6 +71,7 @@ namespace DrawingPlayground.JsApi {
         }
 
         private float _f;
+        /// <summary>A float representing the f component of the matrix.</summary>
         public float f {
             get => _f;
             set {
@@ -113,6 +119,10 @@ namespace DrawingPlayground.JsApi {
             );
         }
 
+        /// <summary>
+        /// Performs matrix multiplication. This matrix is post-multiplied by another matrix,
+        /// returning the resulting new matrix as SVGMatrix.
+        /// </summary>
         public SVGMatrix multiply(SVGMatrix? secondMatrix) {
             if (secondMatrix is null) {
                 throw JsErrorUtils.InvalidValue(engine, nameof(SVGMatrix), nameof(multiply), nameof(secondMatrix), null);
@@ -120,38 +130,10 @@ namespace DrawingPlayground.JsApi {
             return mult(secondMatrix);
         }
 
-        public SVGMatrix translate(float x, float y) => mult(1, 0, 0, 1, x, y);
-
-        public SVGMatrix scale(float s) => mult(s, 0, 0, s, 0, 0);
-
-        public SVGMatrix scaleNonUniform(float x, float y) => mult(x, 0, 0, y, 0, 0);
-
-        public SVGMatrix rotate(float degrees) {
-            var rad = MathUtils.Deg2Rad(degrees);
-            var c = (float)Math.Cos(rad);
-            var s = (float)Math.Sin(rad);
-            return mult(c, s, -s, c, 0, 0);
-        }
-
-        public SVGMatrix rotateFromVector(float x, float y) {
-            var length = (float)Math.Sqrt(x * x + y * y);
-            if (length < 0.000001) return this;
-            x /= length;
-            y /= length;
-            return mult(x, y, -y, x, 0, 0);
-        }
-
-        public SVGMatrix flipX() => mult(-1, 0, 0, 1, 0, 0);
-
-        public SVGMatrix flipY() => mult(1, 0, 0, -1, 0, 0);
-
-        public SVGMatrix skewX(float degrees) => mult(1, 0, MathUtils.TanD(degrees), 1, 0, 0);
-
-        public SVGMatrix skewY(float degrees) => mult(1, MathUtils.TanD(degrees), 0, 1, 0, 0);
-
+        /// <summary>Returns the inverse matrix as SVGMatrix.</summary>
         public SVGMatrix? inverse() {
             var det = _a * _d - _c * _b;
-            if (det == 0) return null;
+            if (Math.Abs(det) < 0.000001f) return null;
             return new SVGMatrix(
                 engine,
                 _d / det,
@@ -162,7 +144,48 @@ namespace DrawingPlayground.JsApi {
                 (_e * _b - _a * _f) / det
             );
         }
-
+        
+        /// <summary>Post-multiplies a translation transformation on the current matrix and returns the resulting matrix as SVGMatrix.</summary>
+        public SVGMatrix translate(float x, float y) => mult(1, 0, 0, 1, x, y);
+        
+        /// <summary>Post-multiplies a uniform scale transformation on the current matrix and returns the resulting matrix as SVGMatrix.</summary>
+        public SVGMatrix scale(float s) => mult(s, 0, 0, s, 0, 0);
+        
+        /// <summary>Post-multiplies a non-uniform scale transformation on the current matrix and returns the resulting matrix as SVGMatrix.</summary>
+        public SVGMatrix scaleNonUniform(float x, float y) => mult(x, 0, 0, y, 0, 0);
+        
+        /// <summary>Post-multiplies a rotation transformation on the current matrix and returns the resulting matrix as SVGMatrix.</summary>
+        public SVGMatrix rotate(float degrees) {
+            var rad = MathUtils.Deg2Rad(degrees);
+            var cos = (float)Math.Cos(rad);
+            var sin = (float)Math.Sin(rad);
+            return mult(cos, sin, -sin, cos, 0, 0);
+        }
+        
+        /// <summary>
+        /// Post-multiplies a rotation transformation on the current matrix and returns the resulting matrix as SVGMatrix.
+        /// The rotation angle is determined by taking (+/-) atan(y/x).
+        /// The direction of the vector (x, y) determines whether the positive or negative angle value is used.
+        /// </summary>
+        public SVGMatrix rotateFromVector(float x, float y) {
+            var length = (float)Math.Sqrt(x * x + y * y);
+            if (length < 0.000001) return this;
+            x /= length;
+            y /= length;
+            return mult(x, y, -y, x, 0, 0);
+        }
+        
+        /// <summary>Post-multiplies the transformation [-1 0 0 1 0 0] and returns the resulting matrix as SVGMatrix.</summary>
+        public SVGMatrix flipX() => mult(-1, 0, 0, 1, 0, 0);
+        
+        /// <summary>Post-multiplies the transformation [1 0 0 -1 0 0] and returns the resulting matrix as SVGMatrix.</summary>
+        public SVGMatrix flipY() => mult(1, 0, 0, -1, 0, 0);
+        
+        /// <summary>Post-multiplies a skewX transformation on the current matrix and returns the resulting matrix as SVGMatrix.</summary>
+        public SVGMatrix skewX(float degrees) => mult(1, 0, MathUtils.TanD(degrees), 1, 0, 0);
+        
+        /// <summary>Post-multiplies a skewY transformation on the current matrix and returns the resulting matrix as SVGMatrix.</summary>
+        public SVGMatrix skewY(float degrees) => mult(1, MathUtils.TanD(degrees), 0, 1, 0, 0);
 
         #if RENDER_BACKEND_SYSTEM_DRAWING
 
