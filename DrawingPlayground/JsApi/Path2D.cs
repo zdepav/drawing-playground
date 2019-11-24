@@ -11,7 +11,7 @@ using SkiaSharp;
 
 namespace DrawingPlayground.JsApi {
 
-    public class Path2D {
+    public class Path2D : IDisposable {
 
         private readonly Engine engine;
 
@@ -229,8 +229,12 @@ namespace DrawingPlayground.JsApi {
             Path.AddRectangle(new RectangleF(x, y, width, height));
         }
 
-        #elif RENDER_BACKEND_SKIA
-        #endif
+        public void Dispose() {
+            Path.Dispose();
+        }
+
+#elif RENDER_BACKEND_SKIA
+#endif
 
     }
 

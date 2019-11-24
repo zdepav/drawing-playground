@@ -133,11 +133,16 @@
     <Compile Include="JsApi\CanvasPattern.cs" />
     <Compile Include="JsApi\CanvasRenderingContext2D.cs" />
     <Compile Include="JsApi\ColorUtils.cs" />
+    <Compile Include="JsApi\Element.cs" />
+    <Compile Include="JsApi\HTMLCanvasElement.cs" />
+    <Compile Include="JsApi\ImageBitmap.cs" />
+    <Compile Include="JsApi\ImageData.cs" />
     <Compile Include="JsApi\JsErrorUtils.cs" />
     <Compile Include="JsApi\MathUtils.cs" />
     <Compile Include="JsApi\Path2D.cs" />
     <Compile Include="JsApi\Path2DConstructor.cs" />
     <Compile Include="JsApi\RenderBackend.cs" />
+    <Compile Include="JsApi\RenderingContext.cs" />
     <Compile Include="JsApi\SVGMatrix.cs" />
     <Compile Include="JsApi\FloatUtils.cs" />
     <Compile Include="JsRunner.cs" />

@@ -17,13 +17,13 @@ namespace DrawingPlayground.JsApi {
 
         #if RENDER_BACKEND_SYSTEM_DRAWING
 
-        private readonly Image image;
+        private readonly ImageBitmap image;
 
         private readonly WrapMode wrapMode;
 
         private Matrix matrix;
 
-        internal CanvasPattern(Engine engine, Image image, WrapMode wrapMode) {
+        internal CanvasPattern(Engine engine, ImageBitmap image, WrapMode wrapMode) {
             this.engine = engine;
             this.image = image;
             this.wrapMode = wrapMode;
@@ -35,7 +35,7 @@ namespace DrawingPlayground.JsApi {
         }
 
         internal Brush MakeBrush() {
-            return new TextureBrush(image, wrapMode) { Transform = matrix };
+            return new TextureBrush(image.Bitmap, wrapMode) { Transform = matrix };
         }
 
         #elif RENDER_BACKEND_SKIA

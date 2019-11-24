@@ -4,6 +4,7 @@ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using Jint;
+using System.Windows.Forms;
 #if RENDER_BACKEND_SYSTEM_DRAWING
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -17,21 +18,22 @@ namespace DrawingPlayground.JsApi {
 
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 
-    public class CanvasRenderingContext2D : IDisposable {
+    public class CanvasRenderingContext2D : RenderingContext, IDisposable {
 
         private readonly Engine engine;
 
-        private Path2D path;
+        private Path2D currentPath;
 
         public SVGMatrix createSVGMatrix() => new SVGMatrix(engine);
 
-        #if RENDER_BACKEND_SYSTEM_DRAWING
+#if RENDER_BACKEND_SYSTEM_DRAWING
 
         private readonly Graphics graphics;
 
-        public CanvasRenderingContext2D(Engine engine, Graphics graphics) {
+        public CanvasRenderingContext2D(Engine engine, Control parentControl, Graphics graphics) {
             this.engine = engine;
             this.graphics = graphics;
+            canvas = new HTMLCanvasElement(engine, this, parentControl);
             _fillStyle = "#000";
             _fillStyleBrush = new SolidBrush(Color.Black);
             _strokeStyle = "#000";
@@ -51,7 +53,7 @@ namespace DrawingPlayground.JsApi {
             graphics.SmoothingMode = _smoothingMode = SmoothingMode.HighSpeed;
             _font = new Font(new FontFamily(GenericFontFamilies.SansSerif), 10, GraphicsUnit.Pixel);
             _stringFormat = new StringFormat();
-            path = new Path2D(engine);
+            currentPath = new Path2D(engine);
         }
 
         private void MakeNewPen(Color color) {
@@ -82,7 +84,7 @@ namespace DrawingPlayground.JsApi {
 
         #region properties
 
-        public object? canvas => null;
+        public HTMLCanvasElement? canvas { get; }
 
         private object _fillStyle;
         private Brush _fillStyleBrush;
@@ -149,13 +151,15 @@ namespace DrawingPlayground.JsApi {
         private LineJoin _lineJoin;
 
         public string? lineJoin {
-            get => _lineJoin switch {
+            get => _lineJoin switch
+            {
                 LineJoin.Round => "round",
                 LineJoin.Bevel => "bevel",
                 _ => "miter"
             };
             set {
-                _lineJoin = value switch {
+                _lineJoin = value switch
+                {
                     "round" => LineJoin.Round,
                     "bevel" => LineJoin.Bevel,
                     "miter" => LineJoin.Miter,
@@ -168,13 +172,15 @@ namespace DrawingPlayground.JsApi {
         private LineCap _lineCap;
 
         public string? lineCap {
-            get => _lineCap switch {
+            get => _lineCap switch
+            {
                 LineCap.Round => "round",
                 LineCap.Square => "square",
                 _ => "butt"
             };
             set {
-                _lineCap = value switch {
+                _lineCap = value switch
+                {
                     "square" => LineCap.Square,
                     "round" => LineCap.Round,
                     "butt" => LineCap.Flat,
@@ -213,22 +219,22 @@ namespace DrawingPlayground.JsApi {
             get => _imageSmoothingEnabled;
             set {
                 _imageSmoothingEnabled = value;
-                if (value) {
-                    graphics.SmoothingMode = _smoothingMode;
-                }
+                graphics.SmoothingMode = value ? _smoothingMode : SmoothingMode.None;
             }
         }
 
         private SmoothingMode _smoothingMode;
 
         public string? imageSmoothingQuality {
-            get => _smoothingMode switch {
+            get => _smoothingMode switch
+            {
                 SmoothingMode.HighQuality => "high",
                 SmoothingMode.AntiAlias => "medium",
                 _ => "low"
             };
             set {
-                _smoothingMode = value switch {
+                _smoothingMode = value switch
+                {
                     "high" => SmoothingMode.HighQuality,
                     "medium" => SmoothingMode.AntiAlias,
                     "low" => SmoothingMode.HighSpeed,
@@ -263,7 +269,8 @@ namespace DrawingPlayground.JsApi {
                         fontStyle |= FontStyle.Italic;
                     }
                     var size = float.Parse(m.Groups["Size"].Value);
-                    var unit = m.Groups["Unit"].Value switch {
+                    var unit = m.Groups["Unit"].Value switch
+                    {
                         "pt" => GraphicsUnit.Point,
                         "px" => GraphicsUnit.Pixel,
                         _ => throw JsErrorUtils.Error(engine, $"Size unit '{m.Groups["Unit"].Value}' is not supported for {nameof(CanvasRenderingContext2D)}.{nameof(font)}")
@@ -272,7 +279,8 @@ namespace DrawingPlayground.JsApi {
                     if (name[0] == '"') {
                         name = name.Substring(1, name.Length - 2);
                     }
-                    var family = name.ToLower() switch {
+                    var family = name.ToLower() switch
+                    {
                         "serif" => new FontFamily(GenericFontFamilies.Serif),
                         "sans-serif" => new FontFamily(GenericFontFamilies.SansSerif),
                         "monospace" => new FontFamily(GenericFontFamilies.Monospace),
@@ -294,9 +302,14 @@ namespace DrawingPlayground.JsApi {
             set => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(globalCompositeOperation));
         }
 
-        public object? currentTransform {
-            get => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(currentTransform));
-            set => throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(currentTransform));
+        public SVGMatrix? currentTransform {
+            get => new SVGMatrix(engine, graphics.Transform);
+            set {
+                if (value is null) {
+                    throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(currentTransform), null);
+                }
+                graphics.Transform = value.ToMatrix();
+            }
         }
 
         public string? direction {
@@ -414,19 +427,99 @@ namespace DrawingPlayground.JsApi {
 
         #region methods
 
+        public void arc(float x, float y, float radius, float startAngle, float endAngle, bool anticlockwise) {
+            currentPath.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+        }
+
+        public void arc(float x, float y, float radius, float startAngle, float endAngle) {
+            currentPath.arc(x, y, radius, startAngle, endAngle, false);
+        }
+
+        public void arcTo(float x1, float y1, float x2, float y2, float radius) {
+            currentPath.arcTo(x1, y1, x2, y2, radius);
+        }
+
+        public void beginPath() {
+            currentPath.Dispose();
+            currentPath = new Path2D(engine);
+        }
+
+        public void bezierCurveTo(float cp1x, float cp1y, float cp2x, float cp2y, float x, float y) {
+            currentPath.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+        }
+
+        public void clearRect(float x, float y, float width, float height) {
+            var cm = graphics.CompositingMode;
+            graphics.CompositingMode = CompositingMode.SourceCopy;
+            graphics.FillRectangle(Brushes.Transparent, x, y, width, height);
+            graphics.CompositingMode = cm;
+        }
+
+        public void clip() {
+            var gp = (GraphicsPath)currentPath.Path.Clone();
+            gp.FillMode = FillMode.Winding;
+            graphics.Clip = new Region(gp);
+        }
+
+        public void clip(string? fillRule) {
+            if (fillRule is null) {
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(clip), nameof(fillRule), null);
+            }
+            var gp = (GraphicsPath)currentPath.Path.Clone();
+            gp.FillMode = fillRule switch
+            {
+                "nonzero" => FillMode.Winding,
+                "evenodd" => FillMode.Alternate,
+                _ => throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(clip), nameof(fillRule), fillRule)
+            };
+            graphics.Clip = new Region(gp);
+        }
+
+        public void clip(Path2D? path) {
+            if (path is null) {
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(clip), nameof(path), null);
+            }
+            var gp = (GraphicsPath)path.Path.Clone();
+            gp.FillMode = FillMode.Winding;
+            graphics.Clip = new Region(gp);
+        }
+
+        public void clip(Path2D? path, string? fillRule) {
+            if (path is null) {
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(clip), nameof(path), null);
+            }
+            var gp = (GraphicsPath)path.Path.Clone();
+            gp.FillMode = fillRule switch
+            {
+                "nonzero" => FillMode.Winding,
+                "evenodd" => FillMode.Alternate,
+                _ => throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(clip), nameof(fillRule), fillRule)
+            };
+            graphics.Clip = new Region(gp);
+        }
+
+        public void closePath() {
+            currentPath.closePath();
+        }
+
+        public ImageData createImageData(int width, int height) {
+            throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(createImageData));
+        }
+
+        public ImageData createImageData(ImageData imagedata) {
+            throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(createImageData));
+        }
+
         public CanvasGradient createLinearGradient(float x0, float y0, float x1, float y1) {
             return new CanvasGradient(engine, x0, y0, x1, y1);
         }
 
-        public CanvasGradient createRadialGradient(float x0, float y0, float r0, float x1, float y1, float r1) {
-            throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(createRadialGradient));
-        }
-
-        public CanvasPattern createPattern(Image? image, string? repetition) {
+        public CanvasPattern createPattern(ImageBitmap? image, string? repetition) {
             if (image is null) {
                 throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(createPattern), nameof(image), null);
             }
-            var wrap = repetition switch {
+            var wrap = repetition switch
+            {
                 null => WrapMode.Tile,
                 "" => WrapMode.Tile,
                 "repeat" => WrapMode.Tile,
@@ -438,8 +531,52 @@ namespace DrawingPlayground.JsApi {
             return new CanvasPattern(engine, image, wrap);
         }
 
-        public void fillRect(float x, float y, float width, float height) {
-            graphics.FillRectangle(_fillStyleBrush, x, y, width, height);
+        public CanvasGradient createRadialGradient(float x0, float y0, float r0, float x1, float y1, float r1) {
+            throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(createRadialGradient));
+        }
+
+        public void drawFocusIfNeeded(Element element) {
+            throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(drawFocusIfNeeded));
+        }
+
+        public void drawFocusIfNeeded(Path2D? path, Element element) {
+            throw JsErrorUtils.NotSupported(engine, nameof(CanvasRenderingContext2D), nameof(drawFocusIfNeeded));
+        }
+
+        public void drawImage(ImageBitmap? image, float dx, float dy) {
+            if (image is null) {
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(drawImage), nameof(image), null);
+            }
+            graphics.DrawImageUnscaled(image.Bitmap, (int)dx, (int)dy);
+        }
+
+        public void drawImage(ImageBitmap? image, float dx, float dy, float dWidth, float dHeight) {
+            if (image is null) {
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(drawImage), nameof(image), null);
+            }
+            graphics.DrawImage(image.Bitmap, dx, dy, dWidth, dHeight);
+        }
+
+        public void drawImage(
+            ImageBitmap? image,
+            float sx,
+            float sy,
+            float sWidth,
+            float sHeight,
+            float dx,
+            float dy,
+            float dWidth,
+            float dHeight
+        ) {
+            if (image is null) {
+                throw JsErrorUtils.InvalidValue(engine, nameof(CanvasRenderingContext2D), nameof(drawImage), nameof(image), null);
+            }
+            graphics.DrawImage(
+                image.Bitmap,
+                new RectangleF(dx, dy, dWidth, dHeight),
+                new RectangleF(sx, sy, sWidth, sHeight),
+                GraphicsUnit.Pixel
+            );
         }
 
         public void ellipse(
@@ -452,11 +589,26 @@ namespace DrawingPlayground.JsApi {
             float endAngle,
             bool anticlockwise
         ) {
-            path.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
+            currentPath.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
         }
 
         public void ellipse(float x, float y, float radiusX, float radiusY, float rotation, float startAngle, float endAngle) {
-            path.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, false);
+            currentPath.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, false);
+        }
+
+        public void fill
+
+
+
+
+
+
+
+
+
+
+        public void fillRect(float x, float y, float width, float height) {
+            graphics.FillRectangle(_fillStyleBrush, x, y, width, height);
         }
 
         #endregion
@@ -464,10 +616,11 @@ namespace DrawingPlayground.JsApi {
         public void Dispose() {
             _fillStyleBrush.Dispose();
             _strokeStylePen.Dispose();
-
+            _stringFormat.Dispose();
+            _font.Dispose();
         }
 
-        #elif RENDER_BACKEND_SKIA
+#elif RENDER_BACKEND_SKIA
         private readonly SKCanvas canv;
 
         public CanvasRenderingContext2D(Engine engine, SKCanvas canv) {
@@ -820,7 +973,7 @@ namespace DrawingPlayground.JsApi {
             _strokeStylePaint.Dispose();
         }
 
-        #endif
+#endif
 
     }
 

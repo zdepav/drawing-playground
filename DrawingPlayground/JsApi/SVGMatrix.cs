@@ -95,6 +95,17 @@ namespace DrawingPlayground.JsApi {
             _f = f;
         }
 
+        internal SVGMatrix(Engine engine, Matrix matrix) {
+            this.engine = engine;
+            var elements = matrix.Elements;
+            _a = elements[0];
+            _b = elements[1];
+            _c = elements[2];
+            _d = elements[3];
+            _e = elements[4];
+            _f = elements[5];
+        }
+
         private SVGMatrix mult(float a, float b, float c, float d, float e, float f) {
             return new SVGMatrix(
                 engine,
