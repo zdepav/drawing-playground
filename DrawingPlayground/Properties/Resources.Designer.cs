@@ -161,6 +161,115 @@ namespace DrawingPlayground.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap help_class {
+            get {
+                object obj = ResourceManager.GetObject("help_class", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap help_constructor {
+            get {
+                object obj = ResourceManager.GetObject("help_constructor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!ELEMENT help (section*)&gt;
+        ///
+        ///&lt;!ELEMENT section ((type|subsection|page)*)&gt;
+        ///&lt;!ATTLIST section title CDATA #REQUIRED&gt;
+        ///
+        ///&lt;!ELEMENT subsection (page*)&gt;
+        ///&lt;!ATTLIST subsection title CDATA #REQUIRED&gt;
+        ///
+        ///&lt;!ELEMENT page (#PCDATA|b|i|u|a|table|ul|ol|img)*&gt;
+        ///&lt;!ATTLIST page title CDATA #REQUIRED&gt;
+        ///&lt;!ATTLIST page page-id ID #IMPLIED&gt;
+        ///
+        ///&lt;!ELEMENT type (summary, constructor*, property*, method*)&gt;
+        ///&lt;!ATTLIST type name NMTOKEN #REQUIRED&gt;
+        ///
+        ///&lt;!ELEMENT constructor (summary, param*, remark*)&gt;
+        ///
+        ///&lt;!ELEMENT property (summary, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string help_dtd {
+            get {
+                return ResourceManager.GetString("help.dtd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap help_method {
+            get {
+                object obj = ResourceManager.GetObject("help_method", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap help_page {
+            get {
+                object obj = ResourceManager.GetObject("help_page", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap help_property {
+            get {
+                object obj = ResourceManager.GetObject("help_property", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap help_section {
+            get {
+                object obj = ResourceManager.GetObject("help_section", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;!DOCTYPE help SYSTEM &quot;help.dtd&quot;&gt;
+        ///&lt;help&gt;
+        ///  &lt;section title=&quot;JavaScript API&quot;&gt;
+        ///    &lt;type name=&quot;Path2D&quot;&gt;
+        ///      &lt;constructor&gt;
+        ///        &lt;summary&gt;Creates empty path.&lt;/summary&gt;
+        ///      &lt;/constructor&gt;
+        ///      &lt;constructor&gt;
+        ///        &lt;summary&gt;Creates a copy of the given path.&lt;/summary&gt;
+        ///        &lt;param name=&quot;path&quot; type=&quot;Path2D&quot;&gt;The path to copy&lt;/param&gt;
+        ///      &lt;/constructor&gt;
+        ///      &lt;method name=&quot;addPath&quot;&gt;
+        ///        &lt;summary&gt;Adds a path to the current path.&lt;/summary&gt;
+        ///        &lt;par [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string help_xml {
+            get {
+                return ResourceManager.GetString("help.xml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon HelpIcon {

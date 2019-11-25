@@ -8,7 +8,7 @@ namespace DrawingPlayground.Forms {
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false</param>
         protected override void Dispose(bool disposing) {
             if (disposing && (components != null)) {
                 components.Dispose();
@@ -24,47 +24,46 @@ namespace DrawingPlayground.Forms {
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HelpForm));
-            this.treeView1 = new System.Windows.Forms.TreeView();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.treeView = new System.Windows.Forms.TreeView();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.SuspendLayout();
             // 
-            // treeView1
+            // treeView
             // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(192, 450);
-            this.treeView1.TabIndex = 0;
+            this.treeView.Dock = System.Windows.Forms.DockStyle.Left;
+            this.treeView.Location = new System.Drawing.Point(0, 0);
+            this.treeView.Name = "treeView";
+            this.treeView.Size = new System.Drawing.Size(192, 450);
+            this.treeView.TabIndex = 0;
             // 
-            // richTextBox1
+            // webBrowser1
             // 
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(192, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextBox1.Size = new System.Drawing.Size(608, 450);
-            this.richTextBox1.TabIndex = 2;
-            this.richTextBox1.Text = "";
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(192, 0);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(608, 450);
+            this.webBrowser1.TabIndex = 1;
             // 
             // HelpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.webBrowser1);
+            this.Controls.Add(this.treeView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HelpForm";
             this.ShowIcon = false;
             this.Text = "Help";
+            this.Load += new System.EventHandler(this.HelpForm_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.TreeView treeView;
+        private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }

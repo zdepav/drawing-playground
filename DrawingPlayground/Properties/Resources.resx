@@ -148,11 +148,35 @@
   <data name="ExportProjectImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExportProjectImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="help.dtd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\help.dtd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="help.xml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\help.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="HelpIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\HelpIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="HelpImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\HelpImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="help_class" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\help_class.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="help_constructor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\help_constructor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="help_method" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\help_method.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="help_page" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\help_page.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="help_property" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\help_property.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="help_section" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\help_section.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ImportProjectIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ImportProjectIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

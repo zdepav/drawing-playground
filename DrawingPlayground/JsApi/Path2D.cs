@@ -41,17 +41,17 @@ namespace DrawingPlayground.JsApi {
         }
 
         /// <summary>Adds a path to the current path.</summary>
-        /// <param name="path">A Path2D path to add.</param>
-        /// <param name="transform">An SVGMatrix to be used as the transformation matrix for the path that is added.</param>
-        public void addPath(Path2D? path, Matrix? transform) {
+        /// <param name="path">A Path2D path to add</param>
+        /// <param name="transform">An SVGMatrix to be used as the transformation matrix for the path that is added</param>
+        public void addPath(Path2D? path, SVGMatrix? transform) {
             if (path is null) {
                 throw JsErrorUtils.InvalidValue(engine, nameof(Path2D), nameof(Path2D), nameof(path), null);
             }
             var gp = (GraphicsPath)path.Path.Clone();
             if (transform is null) {
                 gp.Flatten();
-            } else {
-                gp.Flatten(transform);
+            } else using (var t = transform.ToMatrix()) {
+                gp.Flatten(t);
             }
             Path.AddPath(gp, false);
         }
@@ -66,8 +66,8 @@ namespace DrawingPlayground.JsApi {
         }
 
         /// <summary>Moves the starting point of a new sub-path to the (x, y) coordinates.</summary>
-        /// <param name="x">The x-axis (horizontal) coordinate of the point.</param>
-        /// <param name="y">The y-axis (vertical) coordinate of the point.</param>
+        /// <param name="x">The x-axis (horizontal) coordinate of the point</param>
+        /// <param name="y">The y-axis (vertical) coordinate of the point</param>
         public void moveTo(float x, float y) {
             if (FloatUtils.InfiniteOrNaN(x, y)) return;
             (currentX, currentY) = (x, y);
@@ -88,12 +88,12 @@ namespace DrawingPlayground.JsApi {
         /// The starting point is the last point in the current path,
         /// which can be changed using moveTo() before creating the Bézier curve.
         /// </summary>
-        /// <param name="cp1x">The x-axis coordinate of the first control point.</param>
-        /// <param name="cp1y">The y-axis coordinate of the first control point.</param>
-        /// <param name="cp2x">The x-axis coordinate of the second control point.</param>
-        /// <param name="cp2y">The y-axis coordinate of the second control point.</param>
-        /// <param name="x">The x-axis coordinate of the end point.</param>
-        /// <param name="y">The y-axis coordinate of the end point.</param>
+        /// <param name="cp1x">The x-axis coordinate of the first control point</param>
+        /// <param name="cp1y">The y-axis coordinate of the first control point</param>
+        /// <param name="cp2x">The x-axis coordinate of the second control point</param>
+        /// <param name="cp2y">The y-axis coordinate of the second control point</param>
+        /// <param name="x">The x-axis coordinate of the end point</param>
+        /// <param name="y">The y-axis coordinate of the end point</param>
         public void bezierCurveTo(float cp1x, float cp1y, float cp2x, float cp2y, float x, float y) {
             if (FloatUtils.InfiniteOrNaN(cp1x, cp1y, cp2x, cp2y, x, y)) return;
             Path.AddBezier(currentX, currentY, cp1x, cp1y, cp2x, cp2y, x, y);
@@ -101,10 +101,10 @@ namespace DrawingPlayground.JsApi {
         }
 
         /// <summary>Adds a quadratic Bézier curve to the current path.</summary>
-        /// <param name="cpx">The x-axis coordinate of the control point.</param>
-        /// <param name="cpy">The y-axis coordinate of the control point.</param>
-        /// <param name="x">The x-axis coordinate of the end point.</param>
-        /// <param name="y">The y-axis coordinate of the end point.</param>
+        /// <param name="cpx">The x-axis coordinate of the control point</param>
+        /// <param name="cpy">The y-axis coordinate of the control point</param>
+        /// <param name="x">The x-axis coordinate of the end point</param>
+        /// <param name="y">The y-axis coordinate of the end point</param>
         public void quadraticCurveTo(float cpx, float cpy, float x, float y) {
             if (FloatUtils.InfiniteOrNaN(cpx, cpy, x, y)) return;
             Path.AddBezier(currentX, currentY, cpx, cpy, cpx, cpy, x, y);
@@ -115,12 +115,12 @@ namespace DrawingPlayground.JsApi {
         /// Adds an arc to the path which is centered at (x, y) position with radius r starting at startAngle
         /// and ending at endAngle going in the given direction by anticlockwise (defaulting to clockwise).
         /// </summary>
-        /// <param name="x">The horizontal coordinate of the arc's center.</param>
-        /// <param name="y">The vertical coordinate of the arc's center.</param>
-        /// <param name="radius">The arc's radius. Must be positive.</param>
-        /// <param name="startAngle">The angle at which the arc starts in radians, measured from the positive x-axis.</param>
-        /// <param name="endAngle">The angle at which the arc ends in radians, measured from the positive x-axis.</param>
-        /// <param name="anticlockwise">An optional Boolean. If true, draws the arc counter-clockwise between the start and end angles. The default is false (clockwise).</param>
+        /// <param name="x">The horizontal coordinate of the arc's center</param>
+        /// <param name="y">The vertical coordinate of the arc's center</param>
+        /// <param name="radius">The arc's radius. Must be positive</param>
+        /// <param name="startAngle">The angle at which the arc starts in radians, measured from the positive x-axis</param>
+        /// <param name="endAngle">The angle at which the arc ends in radians, measured from the positive x-axis</param>
+        /// <param name="anticlockwise">An optional Boolean. If true, draws the arc counter-clockwise between the start and end angles. The default is false (clockwise)</param>
         public void arc(float x, float y, float radius, float startAngle, float endAngle, bool anticlockwise) {
             ellipse(x, y, radius, radius, 0f, startAngle, endAngle, anticlockwise);
         }
@@ -129,11 +129,11 @@ namespace DrawingPlayground.JsApi {
         /// Adds an arc to the path which is centered at (x, y) position with radius r starting at startAngle
         /// and ending at endAngle going in the given direction by anticlockwise (defaulting to clockwise).
         /// </summary>
-        /// <param name="x">The horizontal coordinate of the arc's center.</param>
-        /// <param name="y">The vertical coordinate of the arc's center.</param>
-        /// <param name="radius">The arc's radius. Must be positive.</param>
-        /// <param name="startAngle">The angle at which the arc starts in radians, measured from the positive x-axis.</param>
-        /// <param name="endAngle">The angle at which the arc ends in radians, measured from the positive x-axis.</param>
+        /// <param name="x">The horizontal coordinate of the arc's center</param>
+        /// <param name="y">The vertical coordinate of the arc's center</param>
+        /// <param name="radius">The arc's radius. Must be positive</param>
+        /// <param name="startAngle">The angle at which the arc starts in radians, measured from the positive x-axis</param>
+        /// <param name="endAngle">The angle at which the arc ends in radians, measured from the positive x-axis</param>
         public void arc(float x, float y, float radius, float startAngle, float endAngle) {
             ellipse(x, y, radius, radius, 0f, startAngle, endAngle, false);
         }
@@ -152,14 +152,14 @@ namespace DrawingPlayground.JsApi {
         /// Adds an elliptical arc to the path which is centered at (x, y) position with the radii radiusX and radiusY starting
         /// at startAngle and ending at endAngle going in the given direction by anticlockwise (defaulting to clockwise).
         /// </summary>
-        /// <param name="x">The x-axis (horizontal) coordinate of the ellipse's center.</param>
-        /// <param name="y">The y-axis (vertical) coordinate of the ellipse's center.</param>
-        /// <param name="radiusX">The ellipse's major-axis radius. Must be non-negative.</param>
-        /// <param name="radiusY">The ellipse's minor-axis radius. Must be non-negative.</param>
-        /// <param name="rotation">The rotation of the ellipse, expressed in radians.</param>
-        /// <param name="startAngle">The angle at which the ellipse starts, measured clockwise from the positive x-axis and expressed in radians.</param>
-        /// <param name="endAngle">The angle at which the ellipse ends, measured clockwise from the positive x-axis and expressed in radians.</param>
-        /// <param name="anticlockwise">An optional Boolean which, if true, draws the ellipse anticlockwise (counter-clockwise). The default value is false (clockwise).</param>
+        /// <param name="x">The x-axis (horizontal) coordinate of the ellipse's center</param>
+        /// <param name="y">The y-axis (vertical) coordinate of the ellipse's center</param>
+        /// <param name="radiusX">The ellipse's major-axis radius. Must be non-negative</param>
+        /// <param name="radiusY">The ellipse's minor-axis radius. Must be non-negative</param>
+        /// <param name="rotation">The rotation of the ellipse, expressed in radians</param>
+        /// <param name="startAngle">The angle at which the ellipse starts, measured clockwise from the positive x-axis and expressed in radians</param>
+        /// <param name="endAngle">The angle at which the ellipse ends, measured clockwise from the positive x-axis and expressed in radians</param>
+        /// <param name="anticlockwise">An optional Boolean which, if true, draws the ellipse anticlockwise (counter-clockwise). The default value is false (clockwise)</param>
         public void ellipse(
             float x,
             float y,
@@ -191,13 +191,13 @@ namespace DrawingPlayground.JsApi {
         }
 
         /// <summary>Adds an elliptical arc to the path which is centered at (x, y) position with the radii radiusX and radiusY starting at startAngle and ending at endAngle going in the given direction by anticlockwise (defaulting to clockwise).</summary>
-        /// <param name="x">The x-axis (horizontal) coordinate of the ellipse's center.</param>
-        /// <param name="y">The y-axis (vertical) coordinate of the ellipse's center.</param>
-        /// <param name="radiusX">The ellipse's major-axis radius. Must be non-negative.</param>
-        /// <param name="radiusY">The ellipse's minor-axis radius. Must be non-negative.</param>
-        /// <param name="rotation">The rotation of the ellipse, expressed in radians.</param>
-        /// <param name="startAngle">The angle at which the ellipse starts, measured clockwise from the positive x-axis and expressed in radians.</param>
-        /// <param name="endAngle">The angle at which the ellipse ends, measured clockwise from the positive x-axis and expressed in radians.</param>
+        /// <param name="x">The x-axis (horizontal) coordinate of the ellipse's center</param>
+        /// <param name="y">The y-axis (vertical) coordinate of the ellipse's center</param>
+        /// <param name="radiusX">The ellipse's major-axis radius. Must be non-negative</param>
+        /// <param name="radiusY">The ellipse's minor-axis radius. Must be non-negative</param>
+        /// <param name="rotation">The rotation of the ellipse, expressed in radians</param>
+        /// <param name="startAngle">The angle at which the ellipse starts, measured clockwise from the positive x-axis and expressed in radians</param>
+        /// <param name="endAngle">The angle at which the ellipse ends, measured clockwise from the positive x-axis and expressed in radians</param>
         public void ellipse(
             float x,
             float y,
@@ -211,10 +211,10 @@ namespace DrawingPlayground.JsApi {
         }
 
         /// <summary>Creates a path for a rectangle at position (x, y) with a size that is determined by width and height.</summary>
-        /// <param name="x">The x-axis coordinate of the rectangle's starting point.</param>
-        /// <param name="y">The y-axis coordinate of the rectangle's starting point.</param>
-        /// <param name="width">The rectangle's width. Positive values are to the right, and negative to the left.</param>
-        /// <param name="height">The rectangle's height. Positive values are down, and negative are up.</param>
+        /// <param name="x">The x-axis coordinate of the rectangle's starting point</param>
+        /// <param name="y">The y-axis coordinate of the rectangle's starting point</param>
+        /// <param name="width">The rectangle's width. Positive values are to the right, and negative to the left</param>
+        /// <param name="height">The rectangle's height. Positive values are down, and negative are up</param>
         public void rect(float x, float y, float width, float height) {
             if (FloatUtils.InfiniteOrNaN(x, y)) return;
             if (FloatUtils.InfiniteZeroOrNaN(width, height)) return;
