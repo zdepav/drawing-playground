@@ -1,9 +1,11 @@
+using DrawingPlayground.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WeifenLuo.WinFormsUI.Docking;
@@ -26,7 +28,7 @@ namespace DrawingPlayground.Forms {
         protected override string GetPersistString() => "Help";
 
         private void HelpForm_Load(object sender, EventArgs e) {
-            var doc = new XmlDocument();
+            var doc = new XmlDocument { PreserveWhitespace = true };
             doc.LoadXml(Properties.Resources.help_xml);
             treeView.ImageList.Images.Add(Properties.Resources.help_section);
             treeView.ImageList.Images.Add(Properties.Resources.help_page);
@@ -40,8 +42,8 @@ namespace DrawingPlayground.Forms {
                     var subsectionTn = new TreeNode(subsection.GetAttribute("title"), 0, 0) { Tag = "" };
                     sectionTn.Nodes.Add(subsectionTn);
                     foreach (var page in section.ChildNodes.OfType<XmlElement>().Where(e => e.Name == "page")) {
-                        var pageTn = new TreeNode(page.GetAttribute("title"), 0, 0) {
-                            Tag = BuildHelpPageHtml(page, page.GetAttribute("title"))
+                        var pageTn = new TreeNode(page.GetAttribute("title"), 1, 1) {
+                            Tag = BuildHelpPageHtml(page)
                         };
                         subsectionTn.Nodes.Add(pageTn);
                         if (page.HasAttribute("page-id")) {
@@ -50,17 +52,44 @@ namespace DrawingPlayground.Forms {
                     }
                 }
                 foreach (var page in section.ChildNodes.OfType<XmlElement>().Where(e => e.Name == "page")) {
-
+                    var pageTn = new TreeNode(page.GetAttribute("title"), 1, 1) {
+                        Tag = BuildHelpPageHtml(page)
+                    };
+                    sectionTn.Nodes.Add(pageTn);
+                    if (page.HasAttribute("page-id")) {
+                        pages.Add(page.GetAttribute("page-id"), pageTn);
+                    }
                 }
                 foreach (var type in section.ChildNodes.OfType<XmlElement>().Where(e => e.Name == "type")) {
-
+                    sectionTn.Nodes.Add(BuildTypeHelp(type));
                 }
             }
 
         }
 
-        private string BuildHelpPageHtml(XmlElement page, string title) {
-            var html = new StringBuilder("<!DOCTYPE html><html><head><meta charset=\"utf-8\"/><title></title></head><body>");
+        private TreeNode BuildTypeHelp(XmlElement type) {
+            var typeTn = new TreeNode(type.GetAttribute("name"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+        private string BuildHelpPageHtml(XmlElement page) {
+            var html = new StringBuilder("<!DOCTYPE html><html><head><meta charset=\"utf-8\"/><title>");
+            html.Append(page.GetAttribute("title"));
+            html.Append("</title></head><body>");
             foreach (var node in page.ChildNodes.OfType<XmlNode>()) {
                 AppendXmlNodeToHtml(node, html);
             }
@@ -68,13 +97,24 @@ namespace DrawingPlayground.Forms {
             return html.ToString();
         }
 
-        private void AppendXmlNodeToHtml(XmlNode node, StringBuilder html) {
+        private static readonly Regex whitespaceRegex = new Regex(@"\s+");
+
+        private void AppendXmlNodeToHtml(XmlNode node, StringBuilder html, bool insideCodeElement = false) {
             switch (node) {
                 case XmlText textNode:
-                    html.Append(textNode.InnerText);
+                    if (insideCodeElement) {
+                        html.Append(textNode.InnerText);
+                    } else {
+                        html.Append(textNode.InnerText.Trim().Replace(whitespaceRegex, " "));
+                    }
                     break;
                 case XmlElement element:
-                    AppendXmlElementToHtml(element, html);
+                    if (insideCodeElement) {
+                        // only <br/> tag is allowed inside the code tag
+                        html.Append("<br/>");
+                    } else {
+                        AppendXmlElementToHtml(element, html);
+                    }
                     break;
             }
         }
@@ -83,61 +123,87 @@ namespace DrawingPlayground.Forms {
             switch (element.Name) {
                 case "b":
                     html.Append("<strong>");
-                    foreach (var node in element.ChildNodes.OfType<XmlNode>()) {
-                        AppendXmlNodeToHtml(node, html);
-                    }
+                    AppendXmlElementChildrenToHtml(element, html);
                     html.Append("</strong>");
                     break;
                 case "i":
                     html.Append("<em>");
-                    foreach (var node in element.ChildNodes.OfType<XmlNode>()) {
-                        AppendXmlNodeToHtml(node, html);
-                    }
+                    AppendXmlElementChildrenToHtml(element, html);
                     html.Append("</em>");
                     break;
                 case "u":
-                    html.Append("<strong>");
-                    foreach (var node in element.ChildNodes.OfType<XmlNode>()) {
-                        AppendXmlNodeToHtml(node, html);
-                    }
-                    html.Append("</strong>");
+                    html.Append("<span style=\"text-decoration: underline\">");
+                    AppendXmlElementChildrenToHtml(element, html);
+                    html.Append("</span>");
                     break;
-                case "s": {
-                    var l = rtb.TextLength;
-                    foreach (var node in element.ChildNodes.OfType<XmlNode>()) {
-                        AppendXmlNodeToRtb(node, rtb);
+                case "s":
+                    html.Append("<span style=\"text-decoration: line-through\">");
+                    AppendXmlElementChildrenToHtml(element, html);
+                    html.Append("</span>");
+                    break;
+                case "a":
+                    html.Append("<a href=\"");
+                    html.Append(element.GetAttribute("href"));
+                    html.Append("\">");
+                    AppendXmlElementChildrenToHtml(element, html);
+                    html.Append("</a>");
+                    break;
+                case "p":
+                    html.Append("<p>");
+                    AppendXmlElementChildrenToHtml(element, html);
+                    html.Append("</p>");
+                    break;
+                case "ul":
+                case "ol":
+                case "thead":
+                case "tr":
+                    html.Append('<');
+                    html.Append(element.Name);
+                    html.Append('>');
+                    foreach (var childElement in element.ChildNodes.OfType<XmlElement>()) {
+                        html.Append('<');
+                        html.Append(childElement.Name);
+                        html.Append('>');
+                        AppendXmlElementChildrenToHtml(childElement, html);
+                        html.Append("</");
+                        html.Append(childElement.Name);
+                        html.Append('>');
                     }
-                    rtb.Select(l, rtb.TextLength - l);
-                    var font = rtb.SelectionFont;
-                    rtb.SelectionFont = new Font(rtb.SelectionFont, font.Style | (
-                        element.Name switch {
-                            "b" => FontStyle.Bold,
-                            "i" => FontStyle.Italic,
-                            "u" => FontStyle.Underline,
-                            "s" => FontStyle.Strikeout,
-                            _ => FontStyle.Regular
-
+                    html.Append("</");
+                    html.Append(element.Name);
+                    html.Append('>');
+                    break;
+                case "code":
+                    html.Append("<pre>");
+                    foreach (var childNode in element.ChildNodes.OfType<XmlNode>()) {
+                        AppendXmlNodeToHtml(childNode, html, true);
+                    }
+                    html.Append("</pre>");
+                    break;
+                case "br":
+                    html.Append("<br/>");
+                    break;
+                case "table":
+                    html.Append("<table>");
+                    if (element.ChildNodes.OfType<XmlElement>().FirstOrDefault() is XmlElement elem && elem.Name == "thead") {
+                        AppendXmlElementToHtml(elem, html);
+                        html.Append("<tbody>");
+                        foreach (var childElement in element.ChildNodes.OfType<XmlElement>().Skip(1)) {
+                            AppendXmlElementToHtml(childElement, html);
                         }
-                    ));
-                    break;
-                }
-                case "a": {
-                    var l = rtb.TextLength;
-                    foreach (var node in element.ChildNodes.OfType<XmlNode>()) {
-                        AppendXmlNodeToRtb(node, rtb);
+                    } else {
+                        html.Append("<tbody>");
+                        AppendXmlElementChildrenToHtml(element, html);
                     }
-                    rtb.Select(l, rtb.TextLength - l);
-                    rtb.
-                    break;
-                }
-                case "a":
-                    break;
-                case "a":
-                    break;
-                case "a":
+                    html.Append("</tbody></table>");
                     break;
             }
 
+        }
+        private void AppendXmlElementChildrenToHtml(XmlElement element, StringBuilder html) {
+            foreach (var node in element.ChildNodes.OfType<XmlNode>()) {
+                AppendXmlNodeToHtml(node, html);
+            }
         }
     }
 

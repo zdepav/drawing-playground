@@ -3,6 +3,9 @@
 <help>
   <section title="JavaScript API">
     <type name="Path2D">
+      <summary>
+        The Path2D interface of the Canvas 2D API is used to declare a path that can then be used on a <a href="type:CanvasRenderingContext2D">CanvasRenderingContext2D</a> object. The path methods of the <a href="type:CanvasRenderingContext2D">CanvasRenderingContext2D</a> interface are also present on this interface, which gives you the convenience of being able to retain and replay your path whenever desired.
+      </summary>
       <constructor>
         <summary>Creates empty path.</summary>
       </constructor>
@@ -102,6 +105,12 @@
       </method>
     </type>
     <type name="SVGMatrix">
+      <summary>
+        Many of SVG's graphics operations utilize 2x3 matrices of the form:<br/>
+        <code>[a c e]<br/>[b d f]</code><br/>
+        which, when expanded into a 3x3 matrix for the purposes of matrix arithmetic, become:<br/>
+        <code>[a c e]<br/>[b d f]<br/>[0 0 1]</code>
+      </summary>
       <property name="a" type="float">
         <summary>A float representing the a component of the matrix.</summary>
       </property>

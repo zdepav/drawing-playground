@@ -6,7 +6,7 @@
 <!ELEMENT subsection (page*)>
 <!ATTLIST subsection title CDATA #REQUIRED>
 
-<!ELEMENT page (#PCDATA|p|b|i|u|a|s|table|ul|ol|img)*>
+<!ELEMENT page (#PCDATA|p|b|i|u|a|s|table|ul|ol|img|br)*>
 <!ATTLIST page title CDATA #REQUIRED>
 <!ATTLIST page page-id ID #IMPLIED>
 
@@ -22,49 +22,53 @@
 <!ELEMENT method (summary, param*, returns?, remark*)>
 <!ATTLIST method name NMTOKEN #REQUIRED>
 
-<!ELEMENT summary (#PCDATA|b|i|u|a|s|table|ul|ol|img)*>
+<!ELEMENT summary (#PCDATA|b|i|u|a|s|table|ul|ol|img|br|code)*>
 
-<!ELEMENT param (#PCDATA|b|i|u|a|s|table|ul|ol|img)*>
+<!ELEMENT param (#PCDATA|b|i|u|a|s|table|ul|ol|img|br|code)*>
 <!ATTLIST param name NMTOKEN #REQUIRED>
 <!ATTLIST param type NMTOKEN #REQUIRED>
 <!ATTLIST param optional (true|false) "false">
 
-<!ELEMENT returns (#PCDATA|b|i|u|a|s|table|ul|ol|img)*>
+<!ELEMENT returns (#PCDATA|b|i|u|a|s|table|ul|ol|img|br|code)*>
 <!ATTLIST returns type NMTOKEN #REQUIRED>
 
-<!ELEMENT remark (#PCDATA|b|i|u|a|s|table|ul|ol|img)*>
+<!ELEMENT remark (#PCDATA|b|i|u|a|s|table|ul|ol|img|br|code)*>
 
-<!ELEMENT p (#PCDATA|b|i|u|a|s|table|ul|ol|img)*>
+<!ELEMENT p (#PCDATA|b|i|u|a|s|table|ul|ol|img|br|code)*>
 
-<!ELEMENT b (#PCDATA|i|u|a|s)*>
+<!ELEMENT b (#PCDATA|i|u|a|s|br)*>
 
-<!ELEMENT i (#PCDATA|b|u|a|s)*>
+<!ELEMENT i (#PCDATA|b|u|a|s|br)*>
 
-<!ELEMENT u (#PCDATA|i|b|a|s)*>
+<!ELEMENT u (#PCDATA|i|b|a|s|br)*>
 
-<!ELEMENT s (#PCDATA|i|b|a|u)*>
+<!ELEMENT s (#PCDATA|i|b|a|u|br)*>
 
-<!ELEMENT a (#PCDATA|i|u|b|s)*>
+<!ELEMENT a (#PCDATA|i|u|b|s|br)*>
 <!ATTLIST a href CDATA #REQUIRED>
 
-<!ELEMENT table (thead?, tbody)>
+<!ELEMENT table (thead?, tr+)>
 
 <!ELEMENT thead (th, th+)>
 
-<!ELEMENT th (#PCDATA|i|u|a|s)*>
-
-<!ELEMENT tbody (tr+)>
+<!ELEMENT th (#PCDATA|i|u|a|s|br)*>
 
 <!ELEMENT tr (td, td+)>
 
-<!ELEMENT td (#PCDATA|b|i|u|a|s)*>
+<!ELEMENT td (#PCDATA|b|i|u|a|s|br|code)*>
 
 <!ELEMENT ul (li+)>
 
 <!ELEMENT ol (li+)>
 
-<!ELEMENT li (#PCDATA|b|i|u|a|s)*>
+<!ELEMENT li (#PCDATA|b|i|u|a|s|br)*>
+
+<!ELEMENT code (#PCDATA|br)*>
+<!ATTLIST code lang (none|js|lua|cs) "none">
+<!ATTLIST code trimEmptyLines (true|false) "true">
 
 <!ELEMENT img EMPTY>
 <!ATTLIST img alt CDATA #REQUIRED>
 <!ATTLIST img src CDATA #REQUIRED>
+
+<!ELEMENT br EMPTY>
