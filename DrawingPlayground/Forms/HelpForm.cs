@@ -102,11 +102,7 @@ namespace DrawingPlayground.Forms {
         private void AppendXmlNodeToHtml(XmlNode node, StringBuilder html, bool insideCodeElement = false) {
             switch (node) {
                 case XmlText textNode:
-                    if (insideCodeElement) {
-                        html.Append(textNode.InnerText);
-                    } else {
-                        html.Append(textNode.InnerText.Trim().Replace(whitespaceRegex, " "));
-                    }
+                    html.Append(insideCodeElement ? textNode.InnerText : textNode.InnerText.Trim().Replace(whitespaceRegex, " "));
                     break;
                 case XmlElement element:
                     if (insideCodeElement) {
