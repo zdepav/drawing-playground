@@ -42,13 +42,17 @@ namespace DrawingPlayground.Forms {
             this.canvasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.errorListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopRunningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.licensesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gitHubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vs2015LightTheme = new WeifenLuo.WinFormsUI.Docking.VS2015LightTheme();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.stopRunningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,7 +72,8 @@ namespace DrawingPlayground.Forms {
             this.fileToolStripMenuItem,
             this.scriptToolStripMenuItem,
             this.panelToolStripMenuItem,
-            this.runToolStripMenuItem});
+            this.runToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(911, 24);
@@ -148,8 +153,7 @@ namespace DrawingPlayground.Forms {
             this.codeEditorToolStripMenuItem,
             this.canvasToolStripMenuItem,
             this.errorListToolStripMenuItem,
-            this.showConsoleToolStripMenuItem,
-            this.showHelpToolStripMenuItem});
+            this.showConsoleToolStripMenuItem});
             this.panelToolStripMenuItem.Name = "panelToolStripMenuItem";
             this.panelToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.panelToolStripMenuItem.Text = "&View";
@@ -158,7 +162,7 @@ namespace DrawingPlayground.Forms {
             // 
             this.codeEditorToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("codeEditorToolStripMenuItem.Image")));
             this.codeEditorToolStripMenuItem.Name = "codeEditorToolStripMenuItem";
-            this.codeEditorToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.codeEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.codeEditorToolStripMenuItem.Text = "&Code Editor";
             this.codeEditorToolStripMenuItem.Click += new System.EventHandler(this.codeEditorToolStripMenuItem_Click);
             // 
@@ -166,7 +170,7 @@ namespace DrawingPlayground.Forms {
             // 
             this.canvasToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("canvasToolStripMenuItem.Image")));
             this.canvasToolStripMenuItem.Name = "canvasToolStripMenuItem";
-            this.canvasToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.canvasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.canvasToolStripMenuItem.Text = "Can&vas";
             this.canvasToolStripMenuItem.Click += new System.EventHandler(this.canvasToolStripMenuItem_Click);
             // 
@@ -174,7 +178,7 @@ namespace DrawingPlayground.Forms {
             // 
             this.errorListToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("errorListToolStripMenuItem.Image")));
             this.errorListToolStripMenuItem.Name = "errorListToolStripMenuItem";
-            this.errorListToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.errorListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.errorListToolStripMenuItem.Text = "&Error List";
             this.errorListToolStripMenuItem.Click += new System.EventHandler(this.errorListToolStripMenuItem_Click);
             // 
@@ -182,18 +186,9 @@ namespace DrawingPlayground.Forms {
             // 
             this.showConsoleToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showConsoleToolStripMenuItem.Image")));
             this.showConsoleToolStripMenuItem.Name = "showConsoleToolStripMenuItem";
-            this.showConsoleToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.showConsoleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showConsoleToolStripMenuItem.Text = "C&onsole";
             this.showConsoleToolStripMenuItem.Click += new System.EventHandler(this.showConsoleToolStripMenuItem_Click);
-            // 
-            // showHelpToolStripMenuItem
-            // 
-            this.showHelpToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showHelpToolStripMenuItem.Image")));
-            this.showHelpToolStripMenuItem.Name = "showHelpToolStripMenuItem";
-            this.showHelpToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.showHelpToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.showHelpToolStripMenuItem.Text = "&Help";
-            this.showHelpToolStripMenuItem.Click += new System.EventHandler(this.showHelpToolStripMenuItem_Click);
             // 
             // runToolStripMenuItem
             // 
@@ -209,9 +204,40 @@ namespace DrawingPlayground.Forms {
             this.runCodeToolStripMenuItem.Image = global::DrawingPlayground.Properties.Resources.RunImage;
             this.runCodeToolStripMenuItem.Name = "runCodeToolStripMenuItem";
             this.runCodeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.runCodeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.runCodeToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.runCodeToolStripMenuItem.Text = "&Run code";
             this.runCodeToolStripMenuItem.Click += new System.EventHandler(this.RunCodeToolStripMenuItem_Click);
+            // 
+            // stopRunningToolStripMenuItem
+            // 
+            this.stopRunningToolStripMenuItem.Name = "stopRunningToolStripMenuItem";
+            this.stopRunningToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.stopRunningToolStripMenuItem.Text = "&Stop running";
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showHelpToolStripMenuItem,
+            this.gitHubToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.licensesToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // licensesToolStripMenuItem
+            // 
+            this.licensesToolStripMenuItem.Name = "licensesToolStripMenuItem";
+            this.licensesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.licensesToolStripMenuItem.Text = "Licenses";
+            this.licensesToolStripMenuItem.Click += new System.EventHandler(this.licensesToolStripMenuItem_Click);
+            // 
+            // gitHubToolStripMenuItem
+            // 
+            this.gitHubToolStripMenuItem.Name = "gitHubToolStripMenuItem";
+            this.gitHubToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gitHubToolStripMenuItem.Text = "GitHub";
+            this.gitHubToolStripMenuItem.Click += new System.EventHandler(this.gitHubToolStripMenuItem_Click);
             // 
             // timer
             // 
@@ -224,11 +250,18 @@ namespace DrawingPlayground.Forms {
             this.saveFileDialog.AddExtension = false;
             this.saveFileDialog.Filter = "JavaScript files|*.js";
             // 
-            // stopRunningToolStripMenuItem
+            // showHelpToolStripMenuItem
             // 
-            this.stopRunningToolStripMenuItem.Name = "stopRunningToolStripMenuItem";
-            this.stopRunningToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.stopRunningToolStripMenuItem.Text = "&Stop running";
+            this.showHelpToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("showHelpToolStripMenuItem.Image")));
+            this.showHelpToolStripMenuItem.Name = "showHelpToolStripMenuItem";
+            this.showHelpToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.showHelpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showHelpToolStripMenuItem.Text = "&Help";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // MainForm
             // 
@@ -264,7 +297,6 @@ namespace DrawingPlayground.Forms {
         private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem panelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showConsoleToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showHelpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem codeEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem canvasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem errorListToolStripMenuItem;
@@ -277,6 +309,11 @@ namespace DrawingPlayground.Forms {
         private System.Windows.Forms.ToolStripMenuItem runCodeToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem stopRunningToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem licensesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gitHubToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showHelpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
 

@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -202,6 +203,15 @@ namespace DrawingPlayground.Forms {
                 canvasForm?.RefreshEvents();
             }
         }
+
+        private void licensesToolStripMenuItem_Click(object sender, EventArgs e) {
+            using var licenses = new Licenses();
+            licenses.ShowDialog();
+        }
+
+        private void gitHubToolStripMenuItem_Click(object sender, EventArgs e) =>
+            Process.Start("https://github.com/zdepav/drawing-playground");
+
     }
 
     public class AppState {
