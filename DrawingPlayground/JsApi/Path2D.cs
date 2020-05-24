@@ -107,7 +107,12 @@ namespace DrawingPlayground.JsApi {
         /// <param name="y">The y-axis coordinate of the end point</param>
         public void quadraticCurveTo(float cpx, float cpy, float x, float y) {
             if (FloatUtils.InfiniteOrNaN(cpx, cpy, x, y)) return;
-            Path.AddBezier(currentX, currentY, cpx, cpy, cpx, cpy, x, y);
+            Path.AddBezier(
+                currentX, currentY,
+                currentX + (cpx - currentX) * 0.6667, currentY + (cpy - currentY) * 0.6667,
+                cpx + (x - cpx) * 0.3333, cpy + (y - cpy) * 0.3333,
+                x, y
+            );
             (currentX, currentY) = (x, y);
         }
 
